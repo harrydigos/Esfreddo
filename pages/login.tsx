@@ -14,10 +14,10 @@ const Login: NextPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className="flex flex-col items-start bg-white gap-6">
+      <div className="w-[22rem] flex flex-col items-start bg-white gap-6">
         <div className="flex flex-col gap-3">
-          <h1 className="text-3xl font-semibold">Login</h1>
-          <p>Welcome back. Please enter your details</p>
+          <h1 className="text-4xl font-bold">Login</h1>
+          <p className="text-lg">Welcome back. Please enter your details</p>
         </div>
         <form
           onSubmit={handleSubmit}
@@ -26,11 +26,11 @@ const Login: NextPage = () => {
           className="flex flex-col w-full gap-6"
         >
           <div className="flex flex-col items-start gap-2">
-            <label htmlFor="email" className="w-full text-left font-medium">
+            <label htmlFor="email" className="w-full text-medium font-semibold">
               Email
             </label>
             <input
-              className="w-full border-2 p-2 rounded"
+              className="input-field"
               type="email"
               name="email"
               id="email"
@@ -38,11 +38,11 @@ const Login: NextPage = () => {
             />
           </div>
           <div className="flex flex-col items-start gap-2">
-            <label htmlFor="password" className="w-full text-left font-medium">
+            <label htmlFor="password" className="w-full text-medium font-semibold">
               Password
             </label>
             <input
-              className="w-full border-2 p-2 rounded"
+              className="input-field"
               type="password"
               name="password"
               id="password"
@@ -60,14 +60,14 @@ const Login: NextPage = () => {
             </a>
           </div>
           <button
-            className="w-full h-10 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-xl"
+            className="w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl"
             type="submit"
           >
             Sign in
           </button>
           <div className="text-center">
             Don't have an account?
-            <a href="/" className="font-semibold">
+            <a href="/" className="font-semibold p-1">
               Sign up
             </a>
           </div>

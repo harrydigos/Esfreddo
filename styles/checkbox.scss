@@ -9,12 +9,12 @@
 
     // When the checkbox is checked, add background color
     input:checked ~ .checkmark {
-      @apply bg-coffee-dark;
+      @apply bg-coffee-light;
       animation: pop 0.5s;
     }
 
     .text {
-      @apply group-hover:cursor-pointer select-none;
+      @apply group-hover:cursor-pointer select-none font-medium;
 
       &:after {
         content: attr(data-text);
@@ -36,7 +36,7 @@
       height: 0.8em;
       border: solid white;
       border-width: 0 0.15em 0.15em 0;
-      transform: translate(-50%, -50%) rotate(45deg);
+      transform: translate(-50%, -60%) rotate(45deg);
     }
   }
 

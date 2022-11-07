@@ -8,3 +8,19 @@ html,
 body {
   font-family: "Satoshi", sans-serif;
 }
+
+.input-field {
+  @apply w-full p-2 border-2 border-transparent rounded-lg outline-none
+  bg-coffee-cream-light/10 border-coffee-cream text-coffee-light
+  text-lg font-medium transition duration-300 ease-linear;
+
+  &::placeholder {
+    @apply text-coffee-light;
+  }
+
+  &:focus,
+  &:hover {
+    @apply outline-none border-coffee-cream bg-[#ffffff] 
+    shadow-[0_0_0_4px_rgba(238,214,196,0.25)];
+  }
+}
