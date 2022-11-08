@@ -5,6 +5,9 @@ import EyeIcon from "@components/icons/EyeIcon";
 import EyeSlashIcon from "@components/icons/EyeSlashIcon";
 import WarningIcon from "@components/icons/WarningIcon";
 import type { LoginForm } from "@api/loginForm";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const ToggleEyeIcon: React.FC<{ isPasswordHidden: boolean; }> = ({
   isPasswordHidden
@@ -14,40 +17,44 @@ const ToggleEyeIcon: React.FC<{ isPasswordHidden: boolean; }> = ({
   return <EyeSlashIcon className="stroke-coffee-dark" />
 }
 
+const useLoginPageAuthGuard = () => {
+  const session = useSession();
+  const { push } = useRouter();
+  useEffect(() => {
+    if (session) {
+      push('/')
+    }
+  }, [session])
+}
+
+
 const Login: NextPage = () => {
+  useLoginPageAuthGuard();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
 
-  // const [error, setError] = React.useState("");
+  const supabase = useSupabaseClient();
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const loginData: LoginForm = {
+    // await supabase.auth.signUp({
+    //   email,
+    //   password,
+    //   options: {
+    //     data: {
+    //       full_name: 'Pantelis Elef'
+    //     }
+    //   }
+    // })
+
+    await supabase.auth.signInWithPassword({
       email,
-      password,
-      rememberMe,
-    };
-
-    const response = await fetch("/api/loginForm", {
-      method: "POST",
-      body: JSON.stringify(loginData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-      console.log(data.error);
-      return;
-      // return <ErrorForm error={data.error} />;
-    }
-
-    console.log(data);
+      password
+    })
   };
 
   return (
@@ -89,7 +96,7 @@ const Login: NextPage = () => {
               />
 
 
-              <button className="absolute top-1/2 -translate-y-1/2 right-3" onClick={() => setPasswordHidden((oldValue) => !oldValue)}>
+              <button type="button" className="absolute top-1/2 -translate-y-1/2 right-3" onClick={() => setPasswordHidden((oldValue) => !oldValue)}>
                 <ToggleEyeIcon isPasswordHidden={isPasswordHidden} />
               </button>
 
