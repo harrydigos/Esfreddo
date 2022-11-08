@@ -10,7 +10,7 @@ body {
 }
 
 .input-field {
-  @apply w-full p-2 border-2 border-transparent rounded-lg outline-none
+  @apply w-full h-12 px-3 border-2 border-transparent rounded-lg outline-none
   bg-coffee-cream-light/10 border-coffee-cream text-coffee-light
   text-lg font-medium transition duration-300 ease-linear;
 
@@ -20,7 +20,16 @@ body {
 
   &:focus,
   &:hover {
-    @apply outline-none border-coffee-cream bg-[#ffffff] 
+    @apply outline-none border-coffee-cream bg-[#FFFFFF] 
     shadow-[0_0_0_4px_rgba(238,214,196,0.25)];
+  }
+
+  &.error {
+    @apply bg-[#FF3333]/5 border-[#FF3333];
+
+    &:focus,
+    &:hover {
+      @apply outline-none border-[rgb(255,51,51)] bg-[#FFFFFF] shadow-[0_0_0_4px_rgba(255,51,51,0.10)];
+    }
   }
 }

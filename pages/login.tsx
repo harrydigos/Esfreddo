@@ -1,6 +1,9 @@
 import type { NextPage } from "next";
 import React from "react";
 import { ErrorForm } from "../components/errorForm";
+import EyeIcon from "../components/icons/EyeIcon";
+import EyeSlashIcon from "../components/icons/EyeSlashIcon";
+import WarningIcon from "../components/icons/WarningIcon";
 import { LoginForm } from "./api/loginForm";
 
 const Login: NextPage = () => {
@@ -36,6 +39,26 @@ const Login: NextPage = () => {
 
     console.log(data);
   };
+  const togglePassword = () => {
+    // const passwordInput = document.querySelector("#password") as HTMLInputElement;
+
+    if (password === "") {
+      return <></>;
+    }
+
+    return (
+      <button className="absolute top-1/2 -translate-y-1/2 right-3">
+        <EyeIcon className="stroke-coffee-dark" />
+      </button>
+    );
+
+    // if (passwordInput.type === "password") {
+    //   return <EyeIcon className="stroke-coffee-dark" />;
+    // } else {
+    //   passwordInput.type = "text";
+    //   return <EyeSlashIcon className="stroke-coffee-dark" />;
+    // }
+  };
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -46,7 +69,7 @@ const Login: NextPage = () => {
         </div>
         <form className="flex flex-col w-full gap-6" onSubmit={handleSubmit}>
           <div className="flex flex-col items-start gap-2">
-            <label htmlFor="email" className="w-full text-medium font-semibold">
+            <label htmlFor="email" className="w-full text-base font-semibold">
               Email
             </label>
             <input
@@ -61,18 +84,26 @@ const Login: NextPage = () => {
           <div className="flex flex-col items-start gap-2">
             <label
               htmlFor="password"
-              className="w-full text-medium font-semibold"
+              className="w-full text-base font-semibold"
             >
               Password
             </label>
-            <input
-              className="input-field"
-              id="password"
-              type="password"
-              value={password}
-              onChange={({ target }) => setPassword(target?.value)}
-              placeholder="Enter your password"
-            />
+            <div className="w-full relative flex justify-between items-center gap-3">
+              <input
+                className="input-field error"
+                id="password"
+                type="password"
+                value={password}
+                onChange={({ target }) => setPassword(target?.value)}
+                placeholder="Enter your password"
+              />
+              {togglePassword()}
+            </div>
+
+            <div className="flex gap-2 font-medium text-[#FF3333]">
+              <WarningIcon className="fill-[#FF3333]" />
+              Your password is incorrect
+            </div>
           </div>
           <div className="flex justify-between group">
             <label htmlFor="rememberMe" className="checkbox-container">
@@ -91,7 +122,10 @@ const Login: NextPage = () => {
               Forgot password
             </a>
           </div>
-          <button className="w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl">
+          <button
+            type="submit"
+            className="w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl"
+          >
             Sign in
           </button>
           <div className="text-center">
