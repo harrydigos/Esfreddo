@@ -1,57 +1,89 @@
 import type { NextPage } from "next";
 import React from "react";
+import { ErrorForm } from "../components/errorForm";
+import { LoginForm } from "./api/loginForm";
 
 const Login: NextPage = () => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rememberMe, setRememberMe] = React.useState("false");
+  // const [error, setError] = React.useState("");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const email = document.querySelector("#email") as HTMLInputElement;
-    const password = document.querySelector("#password") as HTMLInputElement;
-    const remember = document.querySelector("#remember") as HTMLInputElement;
+    const loginData: LoginForm = {
+      email,
+      password,
+      rememberMe,
+    };
 
-    console.log("Data: ", email.value, password.value, remember.checked);
+    const response = await fetch("/api/loginForm", {
+      method: "POST",
+      body: JSON.stringify(loginData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.log(data.error);
+      return;
+      // return <ErrorForm error={data.error} />;
+    }
+
+    console.log(data);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="w-[22rem] flex flex-col items-start bg-white gap-6">
         <div className="flex flex-col gap-3">
           <h1 className="text-4xl font-bold">Login</h1>
           <p className="text-lg">Welcome back. Please enter your details</p>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          action="/"
-          method="post"
-          className="flex flex-col w-full gap-6"
-        >
+        <form className="flex flex-col w-full gap-6" onSubmit={handleSubmit}>
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="email" className="w-full text-medium font-semibold">
               Email
             </label>
             <input
               className="input-field"
-              type="email"
-              name="email"
               id="email"
+              type="email"
+              value={email}
+              onChange={({ target }) => setEmail(target?.value)}
               placeholder="Enter your email"
             />
           </div>
           <div className="flex flex-col items-start gap-2">
-            <label htmlFor="password" className="w-full text-medium font-semibold">
+            <label
+              htmlFor="password"
+              className="w-full text-medium font-semibold"
+            >
               Password
             </label>
             <input
               className="input-field"
-              type="password"
-              name="password"
               id="password"
+              type="password"
+              value={password}
+              onChange={({ target }) => setPassword(target?.value)}
               placeholder="Enter your password"
             />
           </div>
           <div className="flex justify-between group">
-            <label htmlFor="remember" className="checkbox-container">
-              <input type="checkbox" name="remember" id="remember" />
+            <label htmlFor="rememberMe" className="checkbox-container">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                defaultValue={rememberMe}
+                onChange={({ target }) =>
+                  setRememberMe(target?.value === "true" ? "false" : "true")
+                }
+              />
               <div className="checkmark" />
               <div className="text" data-text="Remember me" />
             </label>
@@ -59,10 +91,7 @@ const Login: NextPage = () => {
               Forgot password
             </a>
           </div>
-          <button
-            className="w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl"
-            type="submit"
-          >
+          <button className="w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl">
             Sign in
           </button>
           <div className="text-center">
