@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export type LoginForm = {
   email: string;
   password: string;
-  rememberMe: string;
+  rememberMe: boolean;
 };
 
 export default function loginHandler(

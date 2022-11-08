@@ -1,15 +1,25 @@
 import type { NextPage } from "next";
 import React from "react";
-import { ErrorForm } from "../components/errorForm";
-import EyeIcon from "../components/icons/EyeIcon";
-import EyeSlashIcon from "../components/icons/EyeSlashIcon";
-import WarningIcon from "../components/icons/WarningIcon";
-import { LoginForm } from "./api/loginForm";
+// import { ErrorForm } from "../components/errorForm";
+import EyeIcon from "@components/icons/EyeIcon";
+import EyeSlashIcon from "@components/icons/EyeSlashIcon";
+import WarningIcon from "@components/icons/WarningIcon";
+import type { LoginForm } from "@api/loginForm";
+
+const ToggleEyeIcon: React.FC<{ isPasswordHidden: boolean; }> = ({
+  isPasswordHidden
+}) => {
+
+  if (isPasswordHidden) return <EyeIcon className="stroke-coffee-dark" />
+  return <EyeSlashIcon className="stroke-coffee-dark" />
+}
 
 const Login: NextPage = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [rememberMe, setRememberMe] = React.useState("false");
+  const [rememberMe, setRememberMe] = React.useState(false);
+  const [isPasswordHidden, setPasswordHidden] = React.useState(true);
+
   // const [error, setError] = React.useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,26 +49,6 @@ const Login: NextPage = () => {
 
     console.log(data);
   };
-  const togglePassword = () => {
-    // const passwordInput = document.querySelector("#password") as HTMLInputElement;
-
-    if (password === "") {
-      return <></>;
-    }
-
-    return (
-      <button className="absolute top-1/2 -translate-y-1/2 right-3">
-        <EyeIcon className="stroke-coffee-dark" />
-      </button>
-    );
-
-    // if (passwordInput.type === "password") {
-    //   return <EyeIcon className="stroke-coffee-dark" />;
-    // } else {
-    //   passwordInput.type = "text";
-    //   return <EyeSlashIcon className="stroke-coffee-dark" />;
-    // }
-  };
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -75,7 +65,7 @@ const Login: NextPage = () => {
             <input
               className="input-field"
               id="email"
-              type="email"
+              type={'email'}
               value={email}
               onChange={({ target }) => setEmail(target?.value)}
               placeholder="Enter your email"
@@ -92,12 +82,17 @@ const Login: NextPage = () => {
               <input
                 className="input-field error"
                 id="password"
-                type="password"
+                type={isPasswordHidden ? 'password' : 'text'}
                 value={password}
                 onChange={({ target }) => setPassword(target?.value)}
                 placeholder="Enter your password"
               />
-              {togglePassword()}
+
+
+              <button className="absolute top-1/2 -translate-y-1/2 right-3" onClick={() => setPasswordHidden((oldValue) => !oldValue)}>
+                <ToggleEyeIcon isPasswordHidden={isPasswordHidden} />
+              </button>
+
             </div>
 
             <div className="flex gap-2 font-medium text-[#FF3333]">
@@ -110,10 +105,8 @@ const Login: NextPage = () => {
               <input
                 type="checkbox"
                 id="rememberMe"
-                defaultValue={rememberMe}
-                onChange={({ target }) =>
-                  setRememberMe(target?.value === "true" ? "false" : "true")
-                }
+                checked={rememberMe}
+                onChange={({ target }) => setRememberMe(target.checked)}
               />
               <div className="checkmark" />
               <div className="text" data-text="Remember me" />
