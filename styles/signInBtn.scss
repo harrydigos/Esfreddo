@@ -1,10 +1,10 @@
 @layer components {
   .sign-in-btn {
-    @apply relative overflow-hidden w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream text-2xl duration-700 ease-out;
+    @apply relative overflow-hidden w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream text-2xl duration-300 ease-out;
 
     // Circle animation
     &::before {
-      @apply content-[""] w-0 h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full duration-500 ease-out bg-coffee-cream;
+      @apply content-[""] w-0 h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full duration-300 ease-out bg-coffee-cream;
       clip-path: circle(0);
     }
 

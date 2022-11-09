@@ -2,7 +2,7 @@ import WarningIcon from "./icons/WarningIcon";
 
 type ErrorFormProps = JSX.IntrinsicElements["div"] & {
   error: boolean;
-  errorMsg: string;
+  errorMsg?: string;
 };
 
 export const ErrorForm: React.FC<ErrorFormProps> = ({ error, errorMsg }) => {
@@ -11,7 +11,7 @@ export const ErrorForm: React.FC<ErrorFormProps> = ({ error, errorMsg }) => {
       <>
         <div className="flex gap-2 font-medium text-[#FF3333]">
           <WarningIcon className="fill-[#FF3333]" />
-          {errorMsg}
+          {errorMsg || ''}
         </div>
       </>
     );

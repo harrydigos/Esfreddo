@@ -12,16 +12,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 type FormInputs = {
   email: string;
   password: string;
+  rememberMe: boolean;
 };
 
 const Login: NextPage = () => {
   usePageAuthGuard();
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [rememberMe, setRememberMe] = React.useState(false);
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
-  const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const supabase = useSupabaseClient();
@@ -36,18 +33,13 @@ const Login: NextPage = () => {
   //   console.log(data);
   // };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log("email", email);
-
+  const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      setError(true);
       setErrorMessage(error.message);
     }
   };
@@ -59,7 +51,7 @@ const Login: NextPage = () => {
           <div className="w-[22rem] flex flex-col items-start bg-white gap-6 text-dark">
             <div className="flex flex-col gap-3">
               <h1 className="text-4xl font-bold">Login</h1>
-              <p className="text-lg">Welcome back. Please enter your details</p>
+              <p className="text-m font-medium">Welcome back. Please enter your details</p>
             </div>
             <form
               className="flex flex-col w-full gap-6"
@@ -73,16 +65,19 @@ const Login: NextPage = () => {
                   Email
                 </label>
                 <input
-                  {...register("email", { required: true })}
-                  className={`input-field ${error ? "-error" : ""}`}
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: 'Email is required'
+                    }
+                  })}
+                  className={`input-field ${!!errors.email ? "-error" : ""}`}
                   id="email"
                   type={"email"}
-                  value={email}
-                  onChange={({ target }) => setEmail(target?.value)}
                   placeholder="Enter your email"
                 />
-                {errors.email && "First name is required"}
-                {/* <ErrorForm error={error} errorMsg={errorMessage} /> */}
+
+                <ErrorForm error={!!errors.email} errorMsg={errors.email?.message} />
               </div>
               <div className="flex flex-col items-start gap-2">
                 <label
@@ -93,12 +88,15 @@ const Login: NextPage = () => {
                 </label>
                 <div className="w-full relative flex justify-between items-center gap-3">
                   <input
-                    {...register("password", { required: true })}
-                    className={`input-field ${error ? "-error" : ""}`}
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: 'Password is required'
+                      }
+                    })}
+                    className={`input-field ${!!errors.password ? "-error" : ""}`}
                     id="password"
                     type={isPasswordHidden ? "password" : "text"}
-                    value={password}
-                    onChange={({ target }) => setPassword(target?.value)}
                     placeholder="Enter your password"
                   />
                   <button
@@ -109,15 +107,14 @@ const Login: NextPage = () => {
                     <ToggleEyeIcon isPasswordHidden={isPasswordHidden} />
                   </button>
                 </div>
-                <ErrorForm error={error} errorMsg={errorMessage} />
+                <ErrorForm error={!!errors.password} errorMsg={errors.password?.message} />
               </div>
               <div className="flex justify-between group">
                 <label htmlFor="rememberMe" className="checkbox-container">
                   <input
                     type="checkbox"
                     id="rememberMe"
-                    checked={rememberMe}
-                    onChange={({ target }) => setRememberMe(target.checked)}
+                    {...register("rememberMe")}
                   />
                   <div className="checkmark" />
                   <div className="text" data-text="Remember me" />
@@ -126,14 +123,27 @@ const Login: NextPage = () => {
                   Forgot password
                 </a>
               </div>
+
+
+              {
+                !!errorMessage && (
+                  <div className="flex w-full justify-center">
+                    <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
+                  </div>
+                )
+              }
+
+
+
+
               <button
                 type="submit"
                 className="sign-in-btn"
                 button-text="Sign in"
               />
-              <div className="text-center">
+              <div className="flex items-center justify-center gap-2">
                 Don't have an account?
-                <Link href="/signUp" className="font-semibold p-1">
+                <Link href="/signUp" className="font-semibold">
                   Sign up
                 </Link>
               </div>
