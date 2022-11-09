@@ -1,0 +1,25 @@
+@layer components {
+  .sign-in-btn {
+    @apply relative overflow-hidden w-full py-2 bg-coffee-dark rounded-md font-medium text-coffee-cream-light text-2xl duration-700 ease-out;
+
+    // Circle animation
+    &::before {
+      @apply content-[""] w-0 h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full duration-500 ease-out bg-coffee-cream-light;
+      clip-path: circle(0);
+    }
+
+    // Text
+    &::after {
+      @apply content-[attr(button-text)] relative;
+    }
+
+    &:hover {
+      @apply bg-coffee-cream-light text-coffee-dark;
+    }
+
+    &:hover::before {
+      width: 110%;
+      clip-path: circle(100%);
+    }
+  }
+}

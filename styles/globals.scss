@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "./checkbox.scss";
+@import "./signInBtn.scss";
 
 html,
 body {
@@ -24,7 +25,7 @@ body {
     shadow-[0_0_0_4px_rgba(238,214,196,0.25)];
   }
 
-  &.error {
+  &.-error {
     @apply bg-[#FF3333]/5 border-[#FF3333];
 
     &:focus,
