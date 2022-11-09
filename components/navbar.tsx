@@ -21,7 +21,7 @@ export const Navbar: FC<NavbarProp> = () => {
         <div className="flex justify-center items-center gap-6">
           <Link href="/login">Login</Link>
           <button className="inline-block rounded-md bg-coffee-dark text-coffee-cream-light px-4 py-1">
-            Sign Up
+            <Link href="/signUp">Sign up</Link>
           </button>
         </div>
       </div>
