@@ -5,7 +5,7 @@ type NavbarProp = JSX.IntrinsicElements["nav"];
 
 export const Navbar: FC<NavbarProp> = () => {
   return (
-    <nav className="w-full fixed top-0 border-b">
+    <nav className="sticky top-0 z-30 w-full border-b">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 font-semibold text-lg text-coffee-dark">
         <div>
           <Link href="/" className="font-extrabold text-2xl">
