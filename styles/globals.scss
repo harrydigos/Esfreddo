@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./checkbox.scss";
-@import "./signInBtn.scss";
-@import "./inputField.scss";
+@import "@styles/checkbox.scss";
+@import "@styles/signInBtn.scss";
+@import "@styles/inputField.scss";
 
 html,
 body {

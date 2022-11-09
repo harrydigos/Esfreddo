@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-
       "@components/*": ["components/*"],
-      "@api/*": ["pages/api/*"]
-
+      "@api/*": ["pages/api/*"],
+      "@public/*": ["public/*"],
+      "@styles/*": ["styles/*"],
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
