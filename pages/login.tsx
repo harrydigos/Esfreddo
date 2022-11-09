@@ -29,10 +29,6 @@ const Login: NextPage = () => {
     handleSubmit,
   } = useForm<FormInputs>();
 
-  // const onSubmitTest: SubmitHandler<FormInputs> = (data) => {
-  //   console.log(data);
-  // };
-
   const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -51,7 +47,9 @@ const Login: NextPage = () => {
           <div className="w-[22rem] flex flex-col items-start bg-white gap-6 text-dark">
             <div className="flex flex-col gap-3">
               <h1 className="text-4xl font-bold">Login</h1>
-              <p className="text-m font-medium">Welcome back. Please enter your details</p>
+              <p className="text-m font-medium">
+                Welcome back. Please enter your details
+              </p>
             </div>
             <form
               className="flex flex-col w-full gap-6"
@@ -68,8 +66,8 @@ const Login: NextPage = () => {
                   {...register("email", {
                     required: {
                       value: true,
-                      message: 'Email is required'
-                    }
+                      message: "Email is required",
+                    },
                   })}
                   className={`input-field ${!!errors.email ? "-error" : ""}`}
                   id="email"
@@ -77,7 +75,10 @@ const Login: NextPage = () => {
                   placeholder="Enter your email"
                 />
 
-                <ErrorForm error={!!errors.email} errorMsg={errors.email?.message} />
+                <ErrorForm
+                  error={!!errors.email}
+                  errorMsg={errors.email?.message}
+                />
               </div>
               <div className="flex flex-col items-start gap-2">
                 <label
@@ -91,10 +92,12 @@ const Login: NextPage = () => {
                     {...register("password", {
                       required: {
                         value: true,
-                        message: 'Password is required'
-                      }
+                        message: "Password is required",
+                      },
                     })}
-                    className={`input-field ${!!errors.password ? "-error" : ""}`}
+                    className={`input-field ${
+                      !!errors.password ? "-error" : ""
+                    }`}
                     id="password"
                     type={isPasswordHidden ? "password" : "text"}
                     placeholder="Enter your password"
@@ -107,7 +110,10 @@ const Login: NextPage = () => {
                     <ToggleEyeIcon isPasswordHidden={isPasswordHidden} />
                   </button>
                 </div>
-                <ErrorForm error={!!errors.password} errorMsg={errors.password?.message} />
+                <ErrorForm
+                  error={!!errors.password}
+                  errorMsg={errors.password?.message}
+                />
               </div>
               <div className="flex justify-between group">
                 <label htmlFor="rememberMe" className="checkbox-container">
@@ -124,17 +130,11 @@ const Login: NextPage = () => {
                 </a>
               </div>
 
-
-              {
-                !!errorMessage && (
-                  <div className="flex w-full justify-center">
-                    <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
-                  </div>
-                )
-              }
-
-
-
+              {!!errorMessage && (
+                <div className="flex w-full justify-center">
+                  <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
+                </div>
+              )}
 
               <button
                 type="submit"

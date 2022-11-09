@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   console.log(session, user);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="container mx-auto flex h-screen justify-center items-center">
       {!session ? (
         <p>Not Logged</p>
       ) : (

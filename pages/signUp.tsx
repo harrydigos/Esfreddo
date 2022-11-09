@@ -26,7 +26,7 @@ const SignUp: NextPage = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto flex h-screen justify-center items-center">
       <p>Sign Up</p>
     </div>
   );
