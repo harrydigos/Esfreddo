@@ -8,6 +8,7 @@ import { usePageAuthGuard } from "utils/pageGuard";
 import Image from "next/image";
 import coffeeMachineImg from "@public/coffeeMachine.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { emailRegex } from "@utils/regex";
 
 type FormInputs = {
   email: string;
@@ -68,6 +69,7 @@ const Login: NextPage = () => {
                       value: true,
                       message: "Email is required",
                     },
+                    pattern: { value: emailRegex, message: "Invalid email" },
                   })}
                   className={`input-field ${!!errors.email ? "-error" : ""}`}
                   id="email"

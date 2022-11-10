@@ -6,6 +6,7 @@
       "@api/*": ["pages/api/*"],
       "@public/*": ["public/*"],
       "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

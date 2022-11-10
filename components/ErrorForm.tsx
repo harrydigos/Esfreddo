@@ -5,7 +5,7 @@ type ErrorFormProps = JSX.IntrinsicElements["div"] & {
   errorMsg?: string;
 };
 
-export const ErrorForm: React.FC<ErrorFormProps> = ({ error, errorMsg }) => {
+const ErrorForm: React.FC<ErrorFormProps> = ({ error, errorMsg }) => {
   if (error) {
     return (
       <>
