@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import React from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import ErrorForm from "@components/ErrorForm";
+import ErrorForm from "@components/form/ErrorForm";
 import Link from "next/link";
 import ToggleEyeIcon from "@components/ToggleEyeIcon";
 import { usePageAuthGuard } from "utils/pageGuard";

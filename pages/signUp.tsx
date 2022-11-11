@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import React from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import ErrorForm from "@components/ErrorForm";
+import ErrorForm from "@components/form/ErrorForm";
 import Link from "next/link";
 import ToggleEyeIcon from "@components/ToggleEyeIcon";
 import { usePageAuthGuard } from "@utils/pageGuard";
@@ -10,6 +10,7 @@ import coffeeMachineImg from "@public/coffeeMachine.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
 import PasswordMeter from "@components/password/PasswordMeter";
+import ValidateEmail from "@components/form/ValidateEmail";
 
 type FormInputs = {
   email: string;
@@ -25,8 +26,10 @@ const SignUp: NextPage = () => {
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm<FormInputs>();
 
+  const [validateEmail, setValidateEmail] = React.useState(false);
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
   const watchPassword = watch("password", "");
@@ -49,7 +52,10 @@ const SignUp: NextPage = () => {
 
     if (error) {
       setErrorMessage(error.message);
+      return;
     }
+    setValidateEmail(true);
+    reset({ email: "", password: "", fullName: "" });
   };
 
   return (
@@ -156,10 +162,14 @@ const SignUp: NextPage = () => {
               </div>
 
               {!!errorMessage && (
-                <div className="flex w-full justify-center">
-                  <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
-                </div>
+                <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
               )}
+              {validateEmail && (
+                <ValidateEmail
+                  message={"Account created! Please verify your email"}
+                />
+              )}
+
               <button
                 type="submit"
                 className="sign-in-btn"
