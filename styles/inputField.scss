@@ -4,6 +4,10 @@
         bg-coffee-cream-light/10 border-coffee-cream text-coffee-light
         text-lg font-medium transition duration-300 ease-linear;
 
+    &.pswd {
+      @apply pl-3 pr-11;
+    }
+
     &::placeholder {
       @apply text-coffee-light;
     }

@@ -28,10 +28,11 @@ const passwordStrengthText = [
 ];
 
 const PasswordMeter: FC<PasswordMeterProps> = ({ password }) => {
-  const passwordStrength = getPasswordStrength(password);
   if (password.length === 0) {
     return <></>;
   }
+
+  const passwordStrength = getPasswordStrength(password);
 
   return (
     <>

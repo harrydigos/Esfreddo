@@ -132,7 +132,7 @@ const SignUp: NextPage = () => {
                         message: "Password is required",
                       },
                     })}
-                    className={`input-field ${
+                    className={`input-field pswd ${
                       !!errors.password ? "-error" : ""
                     }`}
                     id="password"
