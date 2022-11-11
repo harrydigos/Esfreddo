@@ -4,6 +4,8 @@ import {
   passwordVeryStrongRegex,
 } from "@utils/regex";
 import { FC } from "react";
+import classnames from "classnames";
+import styles from "./PasswordMeter.module.scss";
 
 type PasswordMeterProps = JSX.IntrinsicElements["div"] & {
   password: string;
@@ -37,8 +39,13 @@ const PasswordMeter: FC<PasswordMeterProps> = ({ password }) => {
   return (
     <>
       <div className="w-full pt-1 flex flex-col gap-1">
-        <div className="password-bar">
-          <div className={`strength --${passwordStrength}`}></div>
+        <div className={classnames(styles.bar)}>
+          <div
+            className={classnames(
+              styles.strength,
+              styles["--" + passwordStrength]
+            )}
+          ></div>
         </div>
         <div className="font-semibold text-[#7f7f7f]">
           {passwordStrengthText[passwordStrength]}

@@ -9,7 +9,7 @@ import Image from "next/image";
 import coffeeMachineImg from "@public/coffeeMachine.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
-import PasswordMeter from "@components/PasswordMeter";
+import PasswordMeter from "@components/password/PasswordMeter";
 
 type FormInputs = {
   email: string;

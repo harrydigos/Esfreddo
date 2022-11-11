@@ -1,0 +1,11 @@
+$coffee-dark: #483434;
+$coffee-light: #6b4f4f;
+$coffee-cream: #eed6c4;
+$coffee-cream-light: #fff3e4;
+
+@mixin colors {
+  coffee-dark: $coffee-dark;
+  coffee-light: $coffee-light;
+  coffee-cream: $coffee-cream;
+  coffee-cream-light: $coffee-cream-light;
+}
