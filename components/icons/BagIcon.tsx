@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-const Bag: React.FC<SVGProps<SVGSVGElement>> = (props) => (
+const BagIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -36,4 +36,4 @@ const Bag: React.FC<SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Bag;
+export default BagIcon;

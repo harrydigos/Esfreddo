@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-const ShieldTick: React.FC<SVGProps<SVGSVGElement>> = (props) => (
+const ShieldTickIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width="24"
     height="24"
@@ -12,4 +12,4 @@ const ShieldTick: React.FC<SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default ShieldTick;
+export default ShieldTickIcon;
