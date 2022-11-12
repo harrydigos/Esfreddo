@@ -10,9 +10,9 @@ module.exports = {
       manrope: ["Manrope", "sans-serif"],
     },
     colors: {
-      "transparent": "transparent",
-      "white": "#FFFFFF",
-      "dark": "#292929",
+      transparent: "transparent",
+      white: "#FFFFFF",
+      dark: "#292929",
       "coffee-dark": "#483434",
       "coffee-light": "#6B4F4F",
       "coffee-cream": "#EED6C4",
@@ -20,5 +20,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
