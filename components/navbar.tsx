@@ -5,7 +5,7 @@ import Bag from "./icons/BagIcon";
 
 type NavbarProps = JSX.IntrinsicElements["nav"];
 
-export const Navbar: FC<NavbarProps> = () => {
+const Navbar: FC<NavbarProps> = () => {
   const session = useSession();
   const user = useUser();
 
@@ -52,3 +52,5 @@ export const Navbar: FC<NavbarProps> = () => {
     </nav>
   );
 };
+
+export default Navbar;
