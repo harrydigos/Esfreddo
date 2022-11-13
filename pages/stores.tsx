@@ -3,14 +3,14 @@ import { lazy, Suspense } from 'react';
 import StoresSidebar from "@components/StoresSidebar";
 import dynamic from "next/dynamic";
 import Spinner from "@components/Spinner";
-const Map = dynamic(() => import('@components/map'), { suspense: true });
+const MapComponent = dynamic(() => import('@components/map'), { suspense: true });
 
 const Stores: NextPage = () => {
 
   return (
     <>
       <Suspense fallback={<Spinner />}>
-        <Map />
+        <MapComponent />
       </Suspense>
 
       <div className="container mx-auto">
