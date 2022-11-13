@@ -1,32 +1,21 @@
 import { NextPage } from "next";
+import { lazy, Suspense } from 'react';
 import StoresSidebar from "@components/StoresSidebar";
-import { useEffect, useRef } from "react";
-import mapboxgl from "mapbox-gl";
+import dynamic from "next/dynamic";
+import Spinner from "@components/Spinner";
+const Map = dynamic(() => import('@components/map'), { suspense: true });
 
 const Stores: NextPage = () => {
-  const mapContainer = useRef<any>(null);
-
-  mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
-
-  useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v10",
-      center: [-74.006, 40.7128],
-      zoom: 12,
-    });
-    return () => map.remove();
-  }, []);
 
   return (
     <>
+      <Suspense fallback={<Spinner />}>
+        <Map />
+      </Suspense>
+
       <div className="container mx-auto">
         <StoresSidebar />
       </div>
-      <div
-        className="w-screen h-screen overflow-hidden"
-        ref={mapContainer}
-      ></div>
     </>
   );
 };

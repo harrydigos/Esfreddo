@@ -5,6 +5,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet" />
         <link
           href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap"
           rel="stylesheet"

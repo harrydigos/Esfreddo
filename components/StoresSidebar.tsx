@@ -2,7 +2,7 @@ import Store from "@components/Store";
 
 const StoresSidebar = () => {
   return (
-    <div className="absolute h-screen flex items-center">
+    <div className="h-screen flex items-center">
       <div className="w-[400px] h-3/4 drop-shadow-[0px_16px_32px_rgba(133,133,133,0.5)] backdrop-blur-[8px] bg-white/50 border border-white/20 rounded-2xl">
         <div className="flex h-full flex-col gap-3 p-3">
           <div className="top-3 w-full pb-3 border-b border-dark/10">
