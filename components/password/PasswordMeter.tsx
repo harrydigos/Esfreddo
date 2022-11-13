@@ -5,7 +5,7 @@ import {
 } from "@utils/regex";
 import { FC } from "react";
 import classnames from "classnames";
-import styles from "./PasswordMeter.module.scss";
+import styles from "./passwordMeter.module.scss";
 
 type PasswordMeterProps = JSX.IntrinsicElements["div"] & {
   password: string;
