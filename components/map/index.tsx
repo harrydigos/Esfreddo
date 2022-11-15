@@ -1,6 +1,8 @@
 import Spinner from "@components/Spinner";
 import mapboxgl, { Map } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
+import styles from "./marker.module.scss";
+import classNames from "classnames";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
 
@@ -17,8 +19,14 @@ const MapComponent = () => {
     lat: number;
     map: Map;
   }) => {
-    const marker = new mapboxgl.Marker({ color: "#483434"});
-    marker.setLngLat([lng, lat]).addTo(map);
+    const e = document.createElement("div");
+    e.className = classNames(styles.marker);
+
+    const marker = new mapboxgl.Marker(e, {
+      draggable: false,
+    })
+      .setLngLat([lng, lat])
+      .addTo(map);
   };
 
   useEffect(() => {
@@ -32,11 +40,9 @@ const MapComponent = () => {
 
     map.on("load", () => {
       setLoaded(true);
+      addMarker({ lat: 40.7128, lng: -74.006, map });
+      map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
     });
-
-    addMarker({ lat: 40.7128, lng: -74.006, map });
-
-    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
     return () => map.remove();
   }, []);
