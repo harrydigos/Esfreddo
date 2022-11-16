@@ -1,28 +1,63 @@
 import Spinner from "@components/Spinner";
 import MapProvider from "./MapProvider";
-import { useRef, useState } from "react";
-import MapContext from "./MapContext";
+import { useEffect, useMemo, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import MapMarker from "./MapMarker";
 
-const MapComponent = () => {
-  // const methods = useMap<RefObject<HTMLDivElement>, boolean>();
-  // const [mapContainerRef, isLoaded] = methods;
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
 
-  // Couldn't get the above to work, so I did this instead.
+const useMap = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+
+    const mapConst = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/digos/clafv45pa000l14sals7h1ijw",
+      center: [-74.006, 40.7128],
+      zoom: 12,
+    });
+
+    mapConst.on("load", () => {
+      setIsLoaded(true);
+      mapConst.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+    });
+
+    setMap(mapConst);
+
+    return () => {
+      mapConst.remove();
+      setMap(null);
+    };
+  }, []);
+
+  // return { mapContainerRef, isLoaded, map };
+  
+  return useMemo(() => ({
+    mapContainerRef,
+    isLoaded,
+    map: map
+  }), [mapContainerRef, map, isLoaded]);
+};
+
+const MapComponent = () => {
+  const methods = useMap();
+  const { mapContainerRef, isLoaded } = methods;
 
   return (
-    <MapContext.Provider value={{ mapContainerRef, isLoaded, setIsLoaded }}>
-      <MapProvider>
-        {!isLoaded && <Spinner />}
-        <div
-          className="absolute w-screen h-screen overflow-hidden"
-          ref={mapContainerRef}
-        />
+    <MapProvider {...methods}>
+      {!isLoaded && <Spinner />}
+      <div
+        className="absolute w-screen h-screen overflow-hidden"
+        ref={mapContainerRef}
+      />
 
-        {/* <MapMarker /> Doesn't work yet */}
-      </MapProvider>
-    </MapContext.Provider>
+      <MapMarker {...{ lat: 40.7128, lng: -74.006 }} />
+      <MapMarker {...{ lat: 40.7608722, lng: -73.9661197 }} />
+    </MapProvider>
   );
 };
 

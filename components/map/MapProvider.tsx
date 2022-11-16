@@ -1,34 +1,24 @@
-import mapboxgl from "mapbox-gl";
-import { useContext, useEffect } from "react";
-import MapProviderContext from "./MapContext";
-
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
+import { createContext, RefObject } from "react";
 
 type MapProviderProps = {
   children: React.ReactNode;
+  mapContainerRef: RefObject<HTMLDivElement>;
+  isLoaded: boolean;
 };
 
-const MapProvider: React.FC<MapProviderProps> = (props) => {
-  const context = useContext(MapProviderContext);
+type MapContextType = {
+  mapContainerRef: RefObject<HTMLDivElement>;
+  isLoaded: boolean;
+  map?: mapboxgl.Map;
+  // setIsLoaded: (isLoaded: boolean) => void;
+} | null;
 
-  useEffect(() => {
-    if (!context || !context.mapContainerRef.current) return;
-    const map = new mapboxgl.Map({
-      container: context.mapContainerRef.current,
-      style: "mapbox://styles/digos/clafv45pa000l14sals7h1ijw",
-      center: [-74.006, 40.7128],
-      zoom: 12,
-    });
+export const MapContext = createContext<MapContextType>(null);
 
-    map.on("load", () => {
-      context.setIsLoaded(true);
-      map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-    });
-
-    return () => map.remove();
-  }, []);
-
-  return <>{props.children}</>;
+const MapProvider: React.FC<MapProviderProps> = ({ children, ...props }) => {
+  return (
+    <MapContext.Provider value={{ ...props }}>{children}</MapContext.Provider>
+  );
 };
 
 export default MapProvider;
