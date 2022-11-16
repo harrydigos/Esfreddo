@@ -3,7 +3,7 @@ import {
   passwordStrongRegex,
   passwordVeryStrongRegex,
 } from "@utils/regex";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import classnames from "classnames";
 import styles from "./passwordMeter.module.scss";
 
@@ -22,6 +22,11 @@ const getPasswordStrength = (password: string): number => {
   return 0;
 };
 
+const usePasswordStrength = (password: string) => {
+  return useMemo(() => getPasswordStrength(password), [password])
+}
+
+
 const passwordStrengthText = [
   "😞 Weak",
   "😐 Meh, it's ok",
@@ -30,11 +35,13 @@ const passwordStrengthText = [
 ];
 
 const PasswordMeter: FC<PasswordMeterProps> = ({ password }) => {
+
+  const passwordStrength = usePasswordStrength(password);
+
   if (password.length === 0) {
     return <></>;
   }
 
-  const passwordStrength = getPasswordStrength(password);
 
   return (
     <>
