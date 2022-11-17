@@ -5,9 +5,20 @@
   position: relative;
   width: 40px;
   height: 40px;
-  border-radius: 100%;
-  background-color: rgba(71, 51, 51, 0.2);
   cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-color: rgb(71, 51, 51);
+    transform: scale(0);
+    animation: pulse 3s ease-in-out infinite;
+  }
 
   &::after {
     content: "";
@@ -20,5 +31,82 @@
     border-radius: 100%;
     background-color: variables.$coffee-dark;
     border: 2px solid white;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0);
+
+      background-color: rgba(71, 51, 51, 0);
+    }
+    50% {
+      background-color: rgba(71, 51, 51, 0.2);
+    }
+    100% {
+      background-color: rgba(71, 51, 51, 0);
+      transform: scale(1.25);
+    }
+  }
+}
+
+.popup {
+  @include variables.colors;
+  font-family: "Satoshi", sans-serif;
+  width: 10rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+
+  .image {
+    width: 100%;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 0;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.625rem;
+
+    .location {
+      display: flex;
+      flex-direction: column;
+
+      .address {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: variables.$coffee-dark;
+      }
+
+      .city {
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1rem;
+        color: variables.$coffee-light;
+      }
+    }
+
+    //.heart
+  }
+
+  .orderBtn {
+    width: 100%;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #6b4f4f;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: variables.$coffee-dark;
   }
 }

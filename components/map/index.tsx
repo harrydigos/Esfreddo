@@ -34,13 +34,11 @@ const useMap = () => {
     };
   }, []);
 
-  // return { mapContainerRef, isLoaded, map };
-  
   return useMemo(() => ({
     mapContainerRef,
     isLoaded,
     map: map
-  }), [mapContainerRef, map, isLoaded]);
+  }), [mapContainerRef, isLoaded, map]);
 };
 
 const MapComponent = () => {
@@ -56,7 +54,7 @@ const MapComponent = () => {
       />
 
       <MapMarker {...{ lat: 40.7128, lng: -74.006 }} />
-      <MapMarker {...{ lat: 40.7608722, lng: -73.9661197 }} />
+      <MapMarker {...{ lat: 40.7608, lng: -73.966 }} />
     </MapProvider>
   );
 };

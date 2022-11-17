@@ -1,0 +1,20 @@
+// .mapboxgl-popup {
+
+// }
+
+.mapboxgl-popup-content {
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.mapboxgl-popup-close-button {
+  display: none;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  display: none;
+  // border-top-color: rgba(255, 255, 255, 0.9);
+}
