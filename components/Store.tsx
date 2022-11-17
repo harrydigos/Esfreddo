@@ -2,21 +2,27 @@ import Image from "next/image";
 import ClockIcon from "./icons/ClockIcon";
 import HeartIcon from "./icons/HeartIcon";
 import LocationIcon from "./icons/LocationIcon";
-import store from "@public/cafe.jpg";
+import { StoreType } from "@hooks/useStores";
 
-const Store = () => {
+const Store: React.FC<
+  Pick<
+    StoreType,
+    "address" | "city" | "state" | "image" | "time_close" | "time_open"
+  >
+> = ({ address, city, state, image, time_open, time_close }) => {
   return (
     <>
       <div className="flex gap-3 px-3 py-[10px] rounded-xl duration-100 hover:bg-white/70">
-        <Image
-          src={store}
-          alt={"Store"}
+        {/* This should be a next/image component */}
+        <img
+          src={image!}
+          alt="Store image"
           className="w-20 h-20 rounded-lg object-cover"
         />
         <div className="w-full flex justify-between items-center">
           <div className="flex flex-col items-start justify-center gap-[3px]">
             <div className="text-xl font-semibold text-coffee-dark">
-              3608 N Prince St
+              {address}
             </div>
             <div className="h-[22px] flex gap-2 items-center">
               <LocationIcon
@@ -26,7 +32,7 @@ const Store = () => {
                 strokeWidth={2}
               />
               <div className="font-medium text-coffee-light">
-                Clovis, New York
+                {city}, {state}
               </div>
             </div>
             <div className="flex px-2 py-1 gap-1 items-center bg-coffee-cream rounded-full">
@@ -37,7 +43,7 @@ const Store = () => {
                 strokeWidth={2}
               />
               <div className="font-bold text-xs text-coffee-dark">
-                08:00 - 20:00
+                {time_open} - {time_close}
               </div>
             </div>
           </div>

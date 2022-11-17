@@ -1,7 +1,7 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQuery } from "@tanstack/react-query";
 
-export type Store = {
+export type StoreType = {
   id: number;
   address: string | null;
   city: string | null;
@@ -9,6 +9,8 @@ export type Store = {
   lat: number | null;
   lng: number | null;
   image: string | null;
+  time_open: string | null;
+  time_close: string | null;
 };
 
 export const useStores = () => {
@@ -18,11 +20,11 @@ export const useStores = () => {
 
     if (error) throw error;
     if (data) {
-      const d = data as Store[];
+      const d = data as StoreType[];
 
       return d.map((store) => ({
         ...store,
-        image: `https://fkxrzgowoswekolvadsi.supabase.co/storage/v1/object/public/store-images/${store.id}.jpg`,
+        image: `https://fkxrzgowoswekolvadsi.supabase.co/storage/v1/object/public/stores/${store.id}.jpg`,
       }));
     }
   });

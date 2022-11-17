@@ -3,9 +3,9 @@ import mapboxgl from "mapbox-gl";
 import { useContext, useEffect } from "react";
 import { MapContext } from "./MapProvider";
 import styles from "./marker.module.scss";
-import type { Store } from "@hooks/useStores";
+import type { StoreType } from "@hooks/useStores";
 
-const MapMarker: React.FC<Store> = ({
+const MapMarker: React.FC<StoreType> = ({
   lat,
   lng,
   city,
@@ -39,7 +39,7 @@ const createMarker = (): HTMLDivElement => {
 
 const createPopup = ({
   ...props
-}: Pick<Store, "address" | "city" | "state" | "image">): HTMLDivElement => {
+}: Pick<StoreType, "address" | "city" | "state" | "image">): HTMLDivElement => {
   const popup = document.createElement("div");
   const image = document.createElement("img");
   const info = document.createElement("div");
