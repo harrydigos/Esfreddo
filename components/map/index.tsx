@@ -3,6 +3,7 @@ import MapProvider from "./MapProvider";
 import { useEffect, useMemo, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import MapMarker from "./MapMarker";
+import { useStores } from "@hooks/useStores";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
 
@@ -34,16 +35,20 @@ const useMap = () => {
     };
   }, []);
 
-  return useMemo(() => ({
-    mapContainerRef,
-    isLoaded,
-    map: map
-  }), [mapContainerRef, isLoaded, map]);
+  return useMemo(
+    () => ({
+      mapContainerRef,
+      isLoaded,
+      map: map,
+    }),
+    [mapContainerRef, isLoaded, map]
+  );
 };
 
 const MapComponent = () => {
   const methods = useMap();
   const { mapContainerRef, isLoaded } = methods;
+  const { data: stores } = useStores();
 
   return (
     <MapProvider {...methods}>
@@ -53,8 +58,7 @@ const MapComponent = () => {
         ref={mapContainerRef}
       />
 
-      <MapMarker {...{ lat: 40.7128, lng: -74.006 }} />
-      <MapMarker {...{ lat: 40.7608, lng: -73.966 }} />
+      {stores && stores.map((store) => <MapMarker key={store.id} {...store} />)}
     </MapProvider>
   );
 };
