@@ -6,9 +6,6 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontFamily: {
-      manrope: ["Manrope", "sans-serif"],
-    },
     colors: {
       transparent: "transparent",
       white: "#FFFFFF",
