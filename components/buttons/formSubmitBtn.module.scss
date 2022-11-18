@@ -1,0 +1,47 @@
+@use "styles/variables.scss";
+
+.formSubmitBtn {
+  @include variables.colors;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 0.5rem 0;
+  background-color: variables.$coffee-dark;
+  border-radius: 6px;
+  font-weight: 500;
+  color: variables.$coffee-cream;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  transition: 0.3s ease-out;
+
+  // Circle animation
+  &::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background-color: variables.$coffee-cream;
+    transition: 0.3s ease-out;
+    clip-path: circle(0);
+  }
+
+  // Value
+  &::after {
+    position: relative;
+    content: attr(button-text);
+  }
+
+  &:hover {
+    background-color: variables.$coffee-cream;
+    color: variables.$coffee-dark;
+  }
+
+  &:hover::before {
+    width: 110%;
+    clip-path: circle(100%);
+  }
+}
