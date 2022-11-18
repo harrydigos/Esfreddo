@@ -1,7 +1,6 @@
 @use "styles/variables.scss";
 
 .formSubmitBtn {
-  @include variables.colors;
   position: relative;
   overflow: hidden;
   width: 100%;

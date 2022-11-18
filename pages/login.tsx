@@ -10,6 +10,8 @@ import coffeeMachineImg from "@public/coffeeMachine.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
 import FormSubmitBtn from "@components/buttons/formSubmitBtn";
+import classNames from "classnames";
+import styles from "@components/form/formInput.module.scss";
 
 type FormInputs = {
   email: string;
@@ -72,9 +74,12 @@ const Login: NextPage = () => {
                     },
                     pattern: { value: emailRegex, message: "Invalid email" },
                   })}
-                  className={`input-field ${!!errors.email ? "-error" : ""}`}
+                  className={classNames(
+                    styles.formInput,
+                    !!errors.email ? styles.__error : ""
+                  )}
                   id="email"
-                  type={"email"}
+                  type="email"
                   placeholder="Enter your email"
                 />
 
@@ -98,9 +103,11 @@ const Login: NextPage = () => {
                         message: "Password is required",
                       },
                     })}
-                    className={`input-field pswd ${
-                      !!errors.password ? "-error" : ""
-                    }`}
+                    className={classNames(
+                      styles.formInput,
+                      styles.pswd,
+                      !!errors.password ? styles.__error : ""
+                    )}
                     id="password"
                     type={isPasswordHidden ? "password" : "text"}
                     placeholder="Enter your password"

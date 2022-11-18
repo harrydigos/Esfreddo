@@ -12,6 +12,8 @@ import { emailRegex } from "@utils/regex";
 import PasswordMeter from "@components/password/PasswordMeter";
 import ValidateEmail from "@components/form/ValidateEmail";
 import FormSubmitBtn from "@components/buttons/formSubmitBtn";
+import classNames from "classnames";
+import styles from "@components/form/formInput.module.scss";
 
 type FormInputs = {
   email: string;
@@ -88,7 +90,10 @@ const SignUp: NextPage = () => {
                       message: "Full name is required",
                     },
                   })}
-                  className={`input-field ${!!errors.fullName ? "-error" : ""}`}
+                  className={classNames(
+                    styles.formInput,
+                    !!errors.fullName ? styles.__error : ""
+                  )}
                   id="fullName"
                   type={"fullName"}
                   placeholder="e.g. Babis Digos"
@@ -114,7 +119,10 @@ const SignUp: NextPage = () => {
                     },
                     pattern: { value: emailRegex, message: "Invalid email" },
                   })}
-                  className={`input-field ${!!errors.email ? "-error" : ""}`}
+                  className={classNames(
+                    styles.formInput,
+                    !!errors.email ? styles.__error : ""
+                  )}
                   id="email"
                   type={"email"}
                   placeholder="Enter your email"
@@ -139,9 +147,11 @@ const SignUp: NextPage = () => {
                         message: "Password is required",
                       },
                     })}
-                    className={`input-field pswd ${
-                      !!errors.password ? "-error" : ""
-                    }`}
+                    className={classNames(
+                      styles.formInput,
+                      styles.pswd,
+                      !!errors.password ? styles.__error : ""
+                    )}
                     id="password"
                     type={isPasswordHidden ? "password" : "text"}
                     placeholder="Enter your password"

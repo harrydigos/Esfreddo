@@ -8,14 +8,10 @@ type ErrorFormProps = JSX.IntrinsicElements["div"] & {
 const ErrorForm: React.FC<ErrorFormProps> = ({ error, errorMsg }) => {
   if (error) {
     return (
-      <>
-        <div className="flex w-full justify-center">
-          <div className="flex gap-2 font-medium text-[#FF3333]">
-            <WarningIcon className="fill-[#FF3333]" />
-            {errorMsg || ""}
-          </div>
-        </div>
-      </>
+      <div className="flex w-full justify-center gap-2 font-medium text-[#FF3333]">
+        <WarningIcon className="fill-[#FF3333]" />
+        {errorMsg || ""}
+      </div>
     );
   }
   return <></>;
