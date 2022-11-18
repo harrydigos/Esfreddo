@@ -3,12 +3,13 @@ import React from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import ErrorForm from "@components/form/ErrorForm";
 import Link from "next/link";
-import ToggleEyeIcon from "@components/ToggleEyeIcon";
+import ToggleEyeIcon from "@components/form/ToggleEyeIcon";
 import { usePageAuthGuard } from "utils/pageGuard";
 import Image from "next/image";
 import coffeeMachineImg from "@public/coffeeMachine.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
+import FormSubmitBtn from "@components/buttons/formSubmitBtn";
 
 type FormInputs = {
   email: string;
@@ -138,11 +139,7 @@ const Login: NextPage = () => {
                 </div>
               )}
 
-              <button
-                type="submit"
-                className="sign-in-btn"
-                button-text="Sign in"
-              />
+              <FormSubmitBtn value={"Sign in"} />
               <div className="flex items-center justify-center gap-2">
                 Don't have an account?
                 <Link href="/signUp" className="font-semibold">

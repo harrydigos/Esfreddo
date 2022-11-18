@@ -3,7 +3,7 @@ import React from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import ErrorForm from "@components/form/ErrorForm";
 import Link from "next/link";
-import ToggleEyeIcon from "@components/ToggleEyeIcon";
+import ToggleEyeIcon from "@components/form/ToggleEyeIcon";
 import { usePageAuthGuard } from "@utils/pageGuard";
 import Image from "next/image";
 import coffeeMachineImg from "@public/coffeeMachine.jpg";
@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
 import PasswordMeter from "@components/password/PasswordMeter";
 import ValidateEmail from "@components/form/ValidateEmail";
+import FormSubmitBtn from "@components/buttons/formSubmitBtn";
 
 type FormInputs = {
   email: string;
@@ -170,11 +171,7 @@ const SignUp: NextPage = () => {
                 />
               )}
 
-              <button
-                type="submit"
-                className="sign-in-btn"
-                button-text="Create my account"
-              />
+              <FormSubmitBtn value={"Create my account"} />
               <div className="flex items-center justify-center gap-2">
                 Already a user?
                 <Link href="/login" className="font-semibold">

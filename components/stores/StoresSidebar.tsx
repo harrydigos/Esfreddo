@@ -1,4 +1,4 @@
-import Store from "@components/Store";
+import Store from "@components/stores/Store";
 import { useStores } from "@hooks/useStores";
 
 const StoresSidebar = () => {

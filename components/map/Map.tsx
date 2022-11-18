@@ -1,4 +1,4 @@
-import Spinner from "@components/Spinner";
+import Spinner from "@components/loader/Spinner";
 import MapProvider from "./MapProvider";
 import { useEffect, useMemo, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";

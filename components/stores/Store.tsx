@@ -1,7 +1,7 @@
 import Image from "next/image";
-import ClockIcon from "./icons/ClockIcon";
-import HeartIcon from "./icons/HeartIcon";
-import LocationIcon from "./icons/LocationIcon";
+import ClockIcon from "../icons/ClockIcon";
+import HeartIcon from "../icons/HeartIcon";
+import LocationIcon from "../icons/LocationIcon";
 import { StoreType } from "@hooks/useStores";
 
 const Store: React.FC<
