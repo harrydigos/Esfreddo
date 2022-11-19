@@ -7,10 +7,8 @@ import { useState } from "react";
 import styles from "./searchBar.module.scss";
 
 const StoresSidebar = () => {
-  const { data: storesData } = useStores();
   const [search, setSearch] = useState<string>("");
-  const { data: searchResults } = useSearch({ search, storesData });
-  const stores = searchResults || storesData;
+  const { data: storesData } = useStores(search);
 
   return (
     <div className="h-screen flex items-center">
@@ -38,9 +36,9 @@ const StoresSidebar = () => {
             </div>
           </div>
           <div className="h-full overflow-y-auto scrollbar-hide">
-            <div className="flex flex-col">
-              {stores &&
-                stores.map((store) => <Store key={store.id} {...store} />)}
+            <div className="flex flex-col p-[5px] gap-[5px]">
+              {storesData &&
+                storesData.map((store) => <Store key={store.id} {...store} />)}
             </div>
           </div>
         </div>

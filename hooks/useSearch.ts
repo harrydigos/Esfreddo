@@ -11,13 +11,17 @@ export const useSearch = ({
   return useQuery({
     queryKey: ["stores", search],
     queryFn: () => {
-      return storesData?.filter((store: StoreType) => {
-        return (
-          store.address?.toLowerCase().includes(search.toLowerCase()) ||
-          store.city?.toLowerCase().includes(search.toLowerCase()) ||
-          store.state?.toLowerCase().includes(search.toLowerCase())
-        );
-      });
+
+      if (storesData)
+        return storesData.filter((store: StoreType) => {
+          return (
+            store.address?.toLowerCase().includes(search.toLowerCase()) ||
+            store.city?.toLowerCase().includes(search.toLowerCase()) ||
+            store.state?.toLowerCase().includes(search.toLowerCase())
+          );
+        });
+
+      return storesData;
     },
   });
 };

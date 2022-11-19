@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
 import FormSubmitBtn from "@components/buttons/FormSubmitBtn";
 import classNames from "classnames";
-import styles from "@components/form/FormInput.module.scss";
+import styles from "@components/form/formInput.module.scss";
 
 type FormInputs = {
   email: string;

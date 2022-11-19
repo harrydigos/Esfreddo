@@ -1,21 +1,21 @@
-import { createContext, RefObject } from "react";
+import type { AppMapType } from "@hooks/useMap";
+import { PropsWithChildren } from "react";
+import { useContext } from "react";
+import { createContext } from "react";
 
-type MapProviderProps = {
-  children: React.ReactNode;
-  mapContainerRef: RefObject<HTMLDivElement>;
-  isLoaded: boolean;
-};
+const MapContext = createContext<AppMapType<HTMLDivElement>>({
+  initMap: () => { },
+  prev: {
+    map: null,
+    mapContainerRef: { current: undefined },
+    isLoaded: false
+  }
+});
 
-type MapContextType = {
-  mapContainerRef: RefObject<HTMLDivElement>;
-  isLoaded: boolean;
-  map?: mapboxgl.Map;
-  // setIsLoaded: (isLoaded: boolean) => void;
-} | null;
+export const useMapContext = () => useContext(MapContext);
 
-export const MapContext = createContext<MapContextType>(null);
 
-const MapProvider: React.FC<MapProviderProps> = ({ children, ...props }) => {
+const MapProvider: React.FC<PropsWithChildren<AppMapType<HTMLDivElement>>> = ({ children, ...props }) => {
   return (
     <MapContext.Provider value={{ ...props }}>{children}</MapContext.Provider>
   );

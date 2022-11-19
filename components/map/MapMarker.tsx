@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
 import type { StoreType } from "models/StoreType";
-import { useContext, useEffect } from "react";
-import { MapContext } from "./MapProvider";
+import { useEffect } from "react";
+import { useMapContext } from "./MapProvider";
 import styles from "./marker.module.scss";
 
 const MapMarker: React.FC<StoreType> = ({
@@ -13,10 +13,10 @@ const MapMarker: React.FC<StoreType> = ({
   state,
   image,
 }) => {
-  const ctx = useContext(MapContext);
+  const { prev: { map } } = useMapContext();
 
   useEffect(() => {
-    if (!ctx?.map) return;
+    if (!map) return;
 
     const marker = new mapboxgl.Marker(createMarker())
       .setLngLat([lng!, lat!])
@@ -26,8 +26,8 @@ const MapMarker: React.FC<StoreType> = ({
           .setLngLat([lng!, lat!])
           .setDOMContent(createPopup({ city, address, state, image }))
       )
-      .addTo(ctx.map);
-  }, [ctx?.map]);
+      .addTo(map);
+  }, [map]);
   return null;
 };
 
