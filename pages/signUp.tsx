@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegex } from "@utils/regex";
 import PasswordMeter from "@components/password/PasswordMeter";
 import ValidateEmail from "@components/form/ValidateEmail";
-import FormSubmitBtn from "@components/buttons/formSubmitBtn";
+import FormSubmitBtn from "@components/buttons/FormSubmitBtn";
 import classNames from "classnames";
 import styles from "@components/form/formInput.module.scss";
 

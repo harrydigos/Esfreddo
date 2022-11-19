@@ -1,19 +1,8 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { StoreType } from "models/StoreType";
 
-export type StoreType = {
-  id: number;
-  address: string | null;
-  city: string | null;
-  state: string | null;
-  lat: number | null;
-  lng: number | null;
-  image: string | null;
-  time_open: string | null;
-  time_close: string | null;
-};
-
-export const useStores = () => {
+export const useStores = (): UseQueryResult<StoreType[]> => {
   const supabase = useSupabaseClient();
   return useQuery(["stores"], async () => {
     const { data, error } = await supabase.from("stores").select();

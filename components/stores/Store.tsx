@@ -1,8 +1,8 @@
+import { StoreType } from "models/StoreType";
 import Image from "next/image";
 import ClockIcon from "../icons/ClockIcon";
 import HeartIcon from "../icons/HeartIcon";
 import LocationIcon from "../icons/LocationIcon";
-import { StoreType } from "@hooks/useStores";
 
 const Store: React.FC<
   Pick<
@@ -12,7 +12,7 @@ const Store: React.FC<
 > = ({ address, city, state, image, time_open, time_close }) => {
   return (
     <>
-      <div className="flex gap-3 px-3 py-[10px] rounded-xl duration-100 hover:bg-white/70">
+      <div className="flex gap-3 px-3 py-[10px] rounded-xl duration-100 hover:bg-white/70 cursor-pointer">
         {/* This should be a next/image component */}
         <img
           src={image!}

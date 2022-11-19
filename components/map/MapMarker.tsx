@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
+import type { StoreType } from "models/StoreType";
 import { useContext, useEffect } from "react";
 import { MapContext } from "./MapProvider";
 import styles from "./marker.module.scss";
-import type { StoreType } from "@hooks/useStores";
 
 const MapMarker: React.FC<StoreType> = ({
   lat,
