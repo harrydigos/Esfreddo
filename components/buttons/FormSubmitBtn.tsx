@@ -1,20 +1,21 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import styles from "./formSubmitBtn.module.scss";
 import classNames from "classnames";
+import Spinner from "@components/loader/Spinner";
 
-type Props = {
+type FormSubmitBtnProps = {
   value: string;
-  // TODO: Add loading state
-  // isLoading?: boolean;
 };
 
-const FormSubmitBtn: FC<Props> = ({ value }) => {
+const FormSubmitBtn: FC<FormSubmitBtnProps> = ({ value }) => {
   return (
-    <button
-      type="submit"
-      className={classNames(styles.formSubmitBtn)}
-      button-text={value}
-    />
+    <>
+      <button
+        type="submit"
+        className={classNames(styles.formSubmitBtn)}
+        button-text={value}
+      />
+    </>
   );
 };
 

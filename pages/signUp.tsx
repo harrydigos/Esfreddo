@@ -36,6 +36,7 @@ const SignUp: NextPage = () => {
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState("");
   const watchPassword = watch("password", "");
+
   const supabase = useSupabaseClient();
 
   const onSubmit: SubmitHandler<FormInputs> = async ({
@@ -57,6 +58,7 @@ const SignUp: NextPage = () => {
       setErrorMessage(error.message);
       return;
     }
+
     setValidateEmail(true);
     reset({ email: "", password: "", fullName: "" });
   };

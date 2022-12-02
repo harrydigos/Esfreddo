@@ -1,6 +1,5 @@
 import SearchIcon from "@components/icons/SearchIcon";
 import Store from "@components/stores/Store";
-import { useSearch } from "@hooks/useSearch";
 import { useStores } from "@hooks/useStores";
 import classNames from "classnames";
 import { useState } from "react";
@@ -13,7 +12,7 @@ const StoresSidebar = () => {
   return (
     <div className="h-screen flex items-center">
       <div
-        className="w-[400px] h-3/4 backdrop-blur-[8px] bg-white/50 border border-white/20 rounded-2xl
+        className="w-[448px] h-3/4 backdrop-blur-[8px] bg-white/50 border border-white/20 rounded-2xl
        drop-shadow-[0px_16px_32px_rgba(133,133,133,0.5)]"
       >
         <div className="flex h-full flex-col gap-3 p-3">

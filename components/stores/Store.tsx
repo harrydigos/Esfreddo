@@ -8,25 +8,34 @@ import LocationIcon from "../icons/LocationIcon";
 const Store: React.FC<
   Pick<
     StoreType,
-    "address" | "city" | "state" | "image" | "time_close" | "time_open" | 'lat' | "lng"
+    | "address"
+    | "city"
+    | "state"
+    | "image"
+    | "time_close"
+    | "time_open"
+    | "lat"
+    | "lng"
   >
 > = ({ address, city, state, image, time_open, time_close, lat, lng }) => {
-
-  const { prev: { map } } = useMapContext()
+  const {
+    prev: { map },
+  } = useMapContext();
 
   const findInMap = useCallback(() => {
     if (map && lng && lat) {
       map.flyTo({
         center: [lng, lat],
         zoom: 15,
-      })
+      });
     }
-  }, [])
-
+  }, []);
 
   return (
-
-    <button onClick={findInMap} className="flex gap-3 px-3 py-[10px] rounded-xl duration-100 hover:bg-white/70 focus:bg-white/70 cursor-pointer focus:outline-none focus:ring focus:ring-coffee-cream">
+    <button
+      onClick={findInMap}
+      className="flex gap-3 px-3 py-[10px] rounded-xl duration-100 hover:bg-white/70 focus:bg-white/70 cursor-pointer focus:outline-none focus:ring focus:ring-coffee-cream"
+    >
       {/* This should be a next/image component */}
       <img
         src={image!}
