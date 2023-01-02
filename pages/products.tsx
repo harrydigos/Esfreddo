@@ -10,12 +10,12 @@ const Products: NextPage = () => {
   const [itemsPerRow, setItemsPerRow] = useState<2 | 3>(3);
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [sort, setSort] = useState<string>("Featured");
+  const [sort, setSort] = useState<SortByType>("Featured");
 
   const toggleDropdown = () => setShowDropdown((oldValue) => !oldValue);
 
-  const dropdownItems = (current: string): string[] => {
-    const items = ["Featured", "Price", "Rating"] as string[];
+  const dropdownItems = (current: SortByType): SortByType[] => {
+    const items = ["Featured", "Price", "Rating"] as SortByType[];
     return items.filter((item) => item !== current);
   };
 
@@ -29,23 +29,18 @@ const Products: NextPage = () => {
         <div className="w-full flex justify-between items-center">
           <h1 className="text-4xl font-medium text-dark">Products</h1>
           <div className="flex items-center gap-5">
-            <div className="text-sm font-medium flex gap-2">
-              <div className="text-coffee-light/80">Sort by</div>
+            <div className="text-sm font-medium flex items-center gap-3">
+              <div className="text-coffee-light/80 select-none">Sort by</div>
               <button
-                className={classNames(showDropdown ? "active" : null, "flex items-center gap-1 text-dark")}
+                className="relative inline-block rounded-md border border-gray-300 bg-white px-2 py-1 text-dark shadow-sm focus:outline-none focus:ring-1 focus:ring-coffee-light focus:ring-offset-2 focus:ring-offset-gray-100"
                 onClick={() => toggleDropdown()}
                 onBlur={(e) => closeDropdown(e)}
               >
-                {sort}
-                {showDropdown && (
-                  <Dropdown
-                    items={dropdownItems(sort)}
-                    selectItem={(item: string) => setSort(item)}
-                    showDropdown={false}
-                    toggleDropdown={() => toggleDropdown()}
-                  />
-                )}
-                <ArrowDown className="stroke-dark" width={14} />
+                <div className="inline-flex items-center gap-1">
+                  {sort}
+                  <ArrowDown className="stroke-dark" width={14} />
+                </div>
+                {showDropdown && <Dropdown items={dropdownItems(sort)} selectItem={(item) => setSort(item)} />}
               </button>
             </div>
             <div className="flex items-center gap-1">
