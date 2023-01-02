@@ -21,7 +21,7 @@ const Navbar: FC<NavbarProps> = () => {
           </Link>
           <div className="w-[2px] h-6 bg-coffee-cream rounded-full"></div>
           <Link href="/">Home</Link>
-          <a href="#">Products</a>
+          <a href="/products">Products</a>
           <Link href="/stores">Stores</Link>
           <a href="#">Company</a>
         </div>
