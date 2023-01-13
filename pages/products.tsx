@@ -1,47 +1,30 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import classNames from "classnames";
-import { ArrowDown, Grid2, Grid3 } from "@components/icons";
+import { Grid2, Grid3 } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
 
-export type SortByType = "Featured" | "Price" | "Rating";
+export type TypeSortBy = "Featured" | "Price" | "Rating";
 
 const Products: NextPage = () => {
   const [itemsPerRow, setItemsPerRow] = useState<2 | 3>(3);
 
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [sort, setSort] = useState<SortByType>("Featured");
+  const [sort, setSort] = useState<TypeSortBy>("Featured");
 
-  const toggleDropdown = () => setShowDropdown((oldValue) => !oldValue);
-
-  const dropdownItems = (current: SortByType): SortByType[] => {
-    const items = ["Featured", "Price", "Rating"] as SortByType[];
+  const dropdownItems = (current: TypeSortBy): TypeSortBy[] => {
+    const items = ["Featured", "Price", "Rating"] as TypeSortBy[];
     return items.filter((item) => item !== current);
-  };
-
-  const closeDropdown = (e: React.FocusEvent<HTMLButtonElement>) => {
-    if (e.currentTarget === e.target) setShowDropdown(false);
   };
 
   return (
     <>
       <div className="container mx-auto pt-24">
-        <div className="w-full flex justify-between items-center">
+        <div className="flex w-full items-center justify-between">
           <h1 className="text-4xl font-medium text-dark">Products</h1>
           <div className="flex items-center gap-5">
-            <div className="text-sm font-medium flex items-center gap-3">
-              <div className="text-coffee-light/80 select-none">Sort by</div>
-              <button
-                className="relative inline-block rounded-md border border-gray-300 bg-white px-2 py-1 text-dark shadow-sm focus:outline-none focus:ring-1 focus:ring-coffee-light focus:ring-offset-2 focus:ring-offset-gray-100"
-                onClick={() => toggleDropdown()}
-                onBlur={(e) => closeDropdown(e)}
-              >
-                <div className="inline-flex items-center gap-1">
-                  {sort}
-                  <ArrowDown className="stroke-dark" width={14} />
-                </div>
-                {showDropdown && <Dropdown items={dropdownItems(sort)} selectItem={(item) => setSort(item)} />}
-              </button>
+            <div className="flex items-center gap-3">
+              <div className="select-none text-sm  font-medium text-coffee-light/80">Sort by</div>
+              <Dropdown<TypeSortBy> active={sort} items={dropdownItems(sort)} selectItem={(item) => setSort(item)} />
             </div>
             <div className="flex items-center gap-1">
               <Grid3
