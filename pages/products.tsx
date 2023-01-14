@@ -1,20 +1,20 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3 } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
 
-export type TypeSortBy = "Featured" | "Price" | "Rating";
+const dropdownItems = ["Featured", "Price", "Rating"] as const;
+type DropdownItem = typeof dropdownItems[number];
+
+const filterOut = (current: DropdownItem): DropdownItem[] =>
+  dropdownItems.filter((item) => item !== current);
 
 const Products: NextPage = () => {
   const [itemsPerRow, setItemsPerRow] = useState<2 | 3>(3);
+  const [sort, setSort] = useState<DropdownItem>("Featured");
 
-  const [sort, setSort] = useState<TypeSortBy>("Featured");
-
-  const dropdownItems = (current: TypeSortBy): TypeSortBy[] => {
-    const items = ["Featured", "Price", "Rating"] as TypeSortBy[];
-    return items.filter((item) => item !== current);
-  };
+  const filteredDropdownItems = useMemo(() => filterOut(sort), [sort]);
 
   return (
     <>
@@ -24,7 +24,7 @@ const Products: NextPage = () => {
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-3">
               <div className="select-none text-sm  font-medium text-coffee-light/80">Sort by</div>
-              <Dropdown<TypeSortBy> active={sort} items={dropdownItems(sort)} selectItem={(item) => setSort(item)} />
+              <Dropdown<DropdownItem> active={sort} items={filteredDropdownItems} selectItem={(item) => setSort(item)} />
             </div>
             <div className="flex items-center gap-1">
               <Grid3

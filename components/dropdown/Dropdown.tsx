@@ -2,7 +2,7 @@ import { ArrowDown } from "@components/icons";
 import { useCloseDropdown } from "@hooks/useCloseDropdown";
 import { useRef, useState } from "react";
 
-type DropdownProps<T> = {
+type DropdownProps<T extends string> = {
   active: T;
   items: T[];
   selectItem: (item: T) => void;
