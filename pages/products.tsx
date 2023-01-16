@@ -3,8 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
+import ProductCard from "@components/cards/ProductCard";
 
-const getProducts = (query: string): Promise<string[]> => {
+const getProducts = (query: string, signal?: AbortSignal): Promise<string[]> => {
   const products = [
     "Colombian Blend Coffee Beans",
     "Kenyan Dark Roast Coffee Beans",
@@ -52,8 +53,10 @@ const getProducts = (query: string): Promise<string[]> => {
     "Coffee Cup Warmer",
   ];
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
+      if (signal?.aborted) reject(signal.reason);
+
       resolve(products.filter((product) => product.toLocaleLowerCase().includes(query.toLocaleLowerCase())));
     }, Math.random() * 1000);
   });
@@ -86,37 +89,50 @@ const Products: NextPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const debounceQuery = useSearchDebounce(searchQuery);
+  const controller = new AbortController();
+
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
+    const signal = controller.signal;
+
     (async () => {
       setSearchResults([]);
 
       if (debounceQuery.length) {
-        const data = await getProducts(debounceQuery);
+        setIsFetching(true);
+
+        const data = await getProducts(debounceQuery, signal);
         setSearchResults(data);
+        setIsFetching(false);
       }
     })();
+
+    return () => controller.abort("Abort fetch");
   }, [debounceQuery]);
 
   return (
     <>
       <div className="container mx-auto pt-24">
-        <div className="flex w-full items-center justify-between">
+        <div className="relative flex w-full items-center justify-between">
           <h1 className="text-4xl font-medium text-dark">Products</h1>
-          <div className="relative text-lg font-medium text-coffee-dark">
-            <input
-              className="h-12 w-96 rounded-xl border border-coffee-dark/10 p-3 pl-12 shadow-sm outline-none placeholder:text-coffee-light"
-              type="text"
-              placeholder="Search any product"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <SearchIcon
-              className="absolute top-1/2 left-[14px] -translate-y-1/2 stroke-coffee-dark"
-              width={20}
-              height={20}
-              strokeWidth={2}
-            />
+
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <div className="relative text-lg font-medium text-coffee-dark">
+              <input
+                className="h-12 w-96 rounded-xl border border-coffee-dark/10 p-3 pl-12 shadow-sm outline-none placeholder:text-coffee-light"
+                type="text"
+                placeholder="Search any product"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <SearchIcon
+                className="absolute top-1/2 left-[14px] -translate-y-1/2 stroke-coffee-dark"
+                width={20}
+                height={20}
+                strokeWidth={2}
+              />
+            </div>
           </div>
 
           <div className="flex items-center gap-5">
@@ -144,15 +160,16 @@ const Products: NextPage = () => {
         </div>
 
         {/* TODO:
-        - Add loading state
         - When there are no results, show the all products (pagination will be added later)
         */}
-        <div className="mt-6 flex w-full flex-col">
-          {!searchResults.length ? (
-            <div>All products</div>
-          ) : (
-            searchResults.map((result) => <div key={result}>{result}</div>)
-          )}
+        <div className="mt-8 flex gap-8">
+          <div className="w-[290px] font-medium text-coffee-dark">Filters</div>
+          <div className="flex-1">
+            <div className={classNames(itemsPerRow === 3 ? "grid-cols-3" : "grid-cols-2", "grid gap-8")}>
+              {isFetching && <div>Loading...</div>}
+              {!!searchResults.length && searchResults.map((result) => <ProductCard id={result} name={result} />)}
+            </div>
+          </div>
         </div>
       </div>
     </>
