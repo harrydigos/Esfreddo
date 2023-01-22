@@ -1,84 +1,17 @@
 import { NextPage } from "next";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
 import ProductCard from "@components/cards/ProductCard";
-
-const getProducts = (query: string, signal?: AbortSignal): Promise<string[]> => {
-  const products = [
-    "Colombian Blend Coffee Beans",
-    "Kenyan Dark Roast Coffee Beans",
-    "Ethiopian Medium Roast Coffee Beans",
-    "Sumatra Mandheling Coffee Beans",
-    "Brazilian Santos Coffee Beans",
-    "Guatemalan Antigua Coffee Beans",
-    "French Roast Coffee Beans",
-    "Italian Roast Coffee Beans",
-    "Vienna Roast Coffee Beans",
-    "Espresso Roast Coffee Beans",
-    "Decaffeinated Coffee Beans",
-    "Organic Coffee Beans",
-    "Fair Trade Coffee Beans",
-    "Rainforest Alliance Coffee Beans",
-    "Whole Bean Coffee",
-    "Ground Coffee",
-    "Instant Coffee",
-    "Coffee Pods",
-    "Coffee K-Cups",
-    "Coffee Capsules",
-    "Coffee Filters",
-    "French Press Coffee Maker",
-    "Pour Over Coffee Maker",
-    "Drip Coffee Maker",
-    "Espresso Machine",
-    "Moka Pot",
-    "Siphon Brewer",
-    "Cold Brew Coffee Maker",
-    "Handheld Milk Frother",
-    "Electric Milk Frother",
-    "Coffee Grinder",
-    "Burr Coffee Grinder",
-    "Blade Coffee Grinder",
-    "Manual Coffee Grinder",
-    "Coffee Scale",
-    "Coffee Tamper",
-    "Coffee Scoop",
-    "Coffee Stirrer",
-    "Coffee Mug",
-    "Travel Coffee Mug",
-    "Insulated Coffee Carafe",
-    "Coffee Thermos",
-    "Coffee Tumbler",
-    "Coffee Cup Warmer",
-  ];
-
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (signal?.aborted) reject(signal.reason);
-
-      resolve(products.filter((product) => product.toLocaleLowerCase().includes(query.toLocaleLowerCase())));
-    }, Math.random() * 1000);
-  });
-};
+import Spinner from "@components/loader/Spinner";
+import { useProducts } from "@hooks/useProducts";
+import { useSearchDebounce } from "@hooks/useSearchDebounce";
 
 const dropdownItems = ["Featured", "Price", "Rating"] as const;
 type DropdownItem = typeof dropdownItems[number];
 
 const filterOut = (current: DropdownItem): DropdownItem[] => dropdownItems.filter((item) => item !== current);
-
-const useSearchDebounce = (query: string, delay: number = 300) => {
-  const [debounceValue, setDebounceValue] = useState(query);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebounceValue(query);
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [query, delay]);
-
-  return debounceValue;
-};
 
 const Products: NextPage = () => {
   const [itemsPerRow, setItemsPerRow] = useState<2 | 3>(3);
@@ -87,29 +20,10 @@ const Products: NextPage = () => {
   const filteredDropdownItems = useMemo(() => filterOut(sort), [sort]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<string[]>([]);
   const debounceQuery = useSearchDebounce(searchQuery);
-  const controller = new AbortController();
+  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery);
 
-  const [isFetching, setIsFetching] = useState<boolean>(false);
-
-  useEffect(() => {
-    const signal = controller.signal;
-
-    (async () => {
-      setSearchResults([]);
-
-      if (debounceQuery.length) {
-        setIsFetching(true);
-
-        const data = await getProducts(debounceQuery, signal);
-        setSearchResults(data);
-        setIsFetching(false);
-      }
-    })();
-
-    return () => controller.abort("Abort fetch");
-  }, [debounceQuery]);
+  const hasProducts = products?.length !== 0;
 
   return (
     <>
@@ -159,15 +73,18 @@ const Products: NextPage = () => {
           </div>
         </div>
 
-        {/* TODO:
-        - When there are no results, show the all products (pagination will be added later)
-        */}
         <div className="mt-8 flex gap-8">
           <div className="w-[290px] font-medium text-coffee-dark">Filters</div>
-          <div className="flex-1">
+          <div className="relative min-h-screen flex-1">
+            {isFetching && <Spinner />}
+            {!hasProducts && isSuccess && (
+              <div className="flex  w-full flex-col items-center p-16">
+                <h1 className="text-2xl font-medium text-dark">No products found</h1>
+                <p className="text-sm font-medium text-dark/80">Try changing your search or filter</p>
+              </div>
+            )}
             <div className={classNames(itemsPerRow === 3 ? "grid-cols-3" : "grid-cols-2", "grid gap-8")}>
-              {isFetching && <div>Loading...</div>}
-              {!!searchResults.length && searchResults.map((result) => <ProductCard id={result} name={result} />)}
+              {hasProducts && products?.map((result) => <ProductCard key={result.id} {...result} />)}
             </div>
           </div>
         </div>
