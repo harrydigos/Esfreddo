@@ -3,10 +3,11 @@ import { useMemo, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
-import ProductCard from "@components/cards/ProductCard";
+import ProductCard from "@components/products/ProductCard";
 import Spinner from "@components/loader/Spinner";
 import { useProducts } from "@hooks/useProducts";
 import { useSearchDebounce } from "@hooks/useSearchDebounce";
+import ProductFilter from "@components/products/ProductFilter";
 
 const dropdownItems = ["Featured", "Price", "Rating"] as const;
 type DropdownItem = typeof dropdownItems[number];
@@ -20,8 +21,10 @@ const Products: NextPage = () => {
   const filteredDropdownItems = useMemo(() => filterOut(sort), [sort]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [productFilters, setProductFilters] = useState<string[]>([]);
+
   const debounceQuery = useSearchDebounce(searchQuery);
-  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery);
+  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery, productFilters);
 
   const hasProducts = products?.length !== 0;
 
@@ -74,7 +77,7 @@ const Products: NextPage = () => {
         </div>
 
         <div className="mt-8 flex gap-8">
-          <div className="w-[290px] font-medium text-coffee-dark">Filters</div>
+          <ProductFilter onFilter={setProductFilters} />
           <div className="relative min-h-screen flex-1">
             {isFetching && <Spinner />}
             {!hasProducts && isSuccess && (
