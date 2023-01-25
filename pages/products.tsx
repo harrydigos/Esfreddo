@@ -1,12 +1,15 @@
 import { NextPage } from "next";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
-import ProductCard from "@components/cards/ProductCard";
+import ProductCard from "@components/products/ProductCard";
 import Spinner from "@components/loader/Spinner";
-import { useProducts } from "@hooks/useProducts";
-import { useSearchDebounce } from "@hooks/useSearchDebounce";
+import { usePrice, useProducts } from "@hooks/useProducts";
+import { useDebounce } from "@hooks/useDebounce";
+import ProductFilter from "@components/products/ProductFilter";
+import { ProductFilterType } from "@appTypes/productFilter";
+import ProductFilterProvider from "@components/products/ProductFilterProvider";
 
 const dropdownItems = ["Featured", "Price", "Rating"] as const;
 type DropdownItem = typeof dropdownItems[number];
@@ -20,8 +23,20 @@ const Products: NextPage = () => {
   const filteredDropdownItems = useMemo(() => filterOut(sort), [sort]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const debounceQuery = useSearchDebounce(searchQuery);
-  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery);
+  const [productFilters, setProductFilters] = useState<ProductFilterType>({
+    categories: [],
+    price: { min: 0, max: 0 },
+  });
+
+  const newPrice = useCallback((_priceRange: { min: number; max: number }) => {
+    if (_priceRange) setProductFilters({ categories: [], price: { min: _priceRange.min, max: _priceRange.max } });
+  }, []);
+
+  const { data: initialPrice } = usePrice(newPrice);
+
+  const debounceQuery = useDebounce(searchQuery);
+  const debounceFilters = useDebounce(productFilters, 150);
+  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery, debounceFilters);
 
   const hasProducts = products?.length !== 0;
 
@@ -74,7 +89,13 @@ const Products: NextPage = () => {
         </div>
 
         <div className="mt-8 flex gap-8">
-          <div className="w-[290px] font-medium text-coffee-dark">Filters</div>
+          <ProductFilterProvider
+            filters={productFilters}
+            setFilters={setProductFilters}
+            initialPrice={initialPrice || { min: 0, max: 0 }}
+          >
+            <ProductFilter />
+          </ProductFilterProvider>
           <div className="relative min-h-screen flex-1">
             {isFetching && <Spinner />}
             {!hasProducts && isSuccess && (

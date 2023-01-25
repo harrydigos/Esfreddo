@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const useSearchDebounce = (query: string, delay: number = 300) => {
-  const [debounceValue, setDebounceValue] = useState(query);
+export const useDebounce = <T extends unknown>(query: T, delay: number = 300) => {
+  const [debounceValue, setDebounceValue] = useState<T>(query);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
