@@ -4,15 +4,16 @@ import { CHECKBOXES } from "@utils/productFilters";
 import { ProductFilterType } from "@appTypes/productFilter";
 import { Product } from "models/Product";
 
-export const useProducts = (query: string, filters: ProductFilterType): UseQueryResult<Product[]> => {
+export const useProducts = (query: string, filters: ProductFilterType, sort: string): UseQueryResult<Product[]> => {
   const supabase = useSupabaseClient();
 
   return useQuery(
-    ["products", query, filters],
+    ["products", query, filters, sort],
     async ({ signal }) => {
       if (filters.categories.length === 0) filters.categories = Array.from(CHECKBOXES);
+      let sortBy = isPriceAscending(sort);
 
-      const { data, error } = await supabase
+      let productsQuery = supabase
         .from("products")
         .select("*")
         .ilike(`name`, `%${query}%`)
@@ -21,11 +22,24 @@ export const useProducts = (query: string, filters: ProductFilterType): UseQuery
         .lte("price", filters.price.max)
         .abortSignal(signal!);
 
+      if (typeof sortBy === "boolean") productsQuery = productsQuery.order("price", { ascending: sortBy });
+
+      const { data, error } = await productsQuery;
+
       if (error) throw error;
       if (data) return data as Product[];
     },
     { refetchOnWindowFocus: false }
   );
+};
+
+/**
+ * Returns true if sort is ascending, false if descending, undefined if not price
+ */
+const isPriceAscending = (sort: string): boolean | undefined => {
+  if (sort.includes("Low-High")) return true;
+  if (sort.includes("High-Low")) return false;
+  return undefined;
 };
 
 export const usePrice = (
