@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
 import { Dropdown } from "@components/dropdown/Dropdown";
@@ -10,17 +10,13 @@ import { useDebounce } from "@hooks/useDebounce";
 import ProductFilter from "@components/products/ProductFilter";
 import { ProductFilterType } from "@appTypes/productFilter";
 import ProductFilterProvider from "@components/products/ProductFilterProvider";
+import DropdownProvider from "@components/dropdown/DropdownProvider";
 
-const dropdownItems = ["Featured", "Price", "Rating"] as const;
-type DropdownItem = typeof dropdownItems[number];
-
-const filterOut = (current: DropdownItem): DropdownItem[] => dropdownItems.filter((item) => item !== current);
+const dropdownItems = ["Featured", "Price (Low-High)", "Price (High-Low)"] as const;
 
 const Products: NextPage = () => {
   const [itemsPerRow, setItemsPerRow] = useState<2 | 3>(3);
-  const [sort, setSort] = useState<DropdownItem>("Featured");
-
-  const filteredDropdownItems = useMemo(() => filterOut(sort), [sort]);
+  const [sort, setSort] = useState("Featured");
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [productFilters, setProductFilters] = useState<ProductFilterType>({
@@ -36,7 +32,7 @@ const Products: NextPage = () => {
 
   const debounceQuery = useDebounce(searchQuery);
   const debounceFilters = useDebounce(productFilters, 150);
-  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery, debounceFilters);
+  const { data: products, isFetching, isSuccess } = useProducts(debounceQuery, debounceFilters, sort);
 
   const hasProducts = products?.length !== 0;
 
@@ -67,11 +63,9 @@ const Products: NextPage = () => {
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-3">
               <div className="select-none text-sm  font-medium text-coffee-light/80">Sort by</div>
-              <Dropdown<DropdownItem>
-                active={sort}
-                items={filteredDropdownItems}
-                selectItem={(item) => setSort(item)}
-              />
+              <DropdownProvider active={sort} items={Array.from(dropdownItems)} selectItem={(item) => setSort(item)}>
+                <Dropdown />
+              </DropdownProvider>
             </div>
             <div className="flex items-center gap-1">
               <Grid3
