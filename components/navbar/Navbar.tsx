@@ -48,7 +48,9 @@ const Navbar: FC<JSX.IntrinsicElements["nav"]> = () => {
     <>
       <nav
         className={classNames(
-          !visible ? "-translate-y-[100px]" : null,
+          {
+            "-translate-y-[100px]": !visible,
+          },
           "fixed top-2 z-50 w-screen bg-transparent transition-transform duration-500 ease-in-out"
         )}
       >

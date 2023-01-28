@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { Cart } from "models/Product";
 
 export const useCartLocalStorage = (): {
@@ -12,9 +12,18 @@ export const useCartLocalStorage = (): {
     if (localCart.length) setCart(localCart);
   }, []);
 
-  useEffect(() => {
+  const customCartDispatch: Dispatch<SetStateAction<Cart>> = useCallback((cart: Cart | ((prev: Cart) => Cart)) => {
+    if (typeof cart === "function") {
+      setCart((prev) => {
+        const newCart = cart(prev);
+        window.localStorage.setItem("cart", JSON.stringify(newCart));
+        return newCart;
+      });
+      return;
+    }
     window.localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    setCart(cart);
+  }, []);
 
-  return { cart, setCart };
+  return { cart, setCart: customCartDispatch };
 };
