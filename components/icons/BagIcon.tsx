@@ -1,12 +1,7 @@
 import { SVGProps } from "react";
 
-const BagIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+export const BagIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       d="M7.5 7.67001V6.70001C7.5 4.45001 9.31 2.24001 11.56 2.03001C14.24 1.77001 16.5 3.88001 16.5 6.51001V7.89001"
       strokeWidth="1.5"
@@ -21,19 +16,7 @@ const BagIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <path
-      d="M15.4955 12H15.5045"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M8.49451 12H8.50349"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M15.4955 12H15.5045" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8.49451 12H8.50349" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-
-export default BagIcon;

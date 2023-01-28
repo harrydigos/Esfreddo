@@ -6,13 +6,12 @@ import { useState } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
+import NavbarProvider from "@components/navbar/NavbarProvider";
+import UserCartProvider from "@components/user/UserCartProvider";
 
 const queryClient = new QueryClient();
 
-function MyApp({
-  Component,
-  pageProps,
-}: AppProps<{ initialSession: Session }>) {
+function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
@@ -21,13 +20,14 @@ function MyApp({
         <title>Esfreddo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SessionContextProvider
-        supabaseClient={supabaseClient}
-        initialSession={pageProps.initialSession}
-      >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+      <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.initialSession}>
+        <UserCartProvider>
+          <NavbarProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </NavbarProvider>
+        </UserCartProvider>
       </SessionContextProvider>
     </QueryClientProvider>
   );
