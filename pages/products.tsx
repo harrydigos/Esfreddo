@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import classNames from "classnames";
 import { Grid2, Grid3, SearchIcon } from "@components/icons";
-import { Dropdown } from "@components/dropdown/Dropdown";
 import ProductCard from "@components/products/ProductCard";
 import Spinner from "@components/loader/Spinner";
 import { usePrice, useProducts } from "@hooks/useProducts";
@@ -10,7 +9,8 @@ import { useDebounce } from "@hooks/useDebounce";
 import ProductFilter from "@components/products/ProductFilter";
 import { ProductFilterType } from "@appTypes/productFilter";
 import ProductFilterProvider from "@components/products/ProductFilterProvider";
-import DropdownProvider from "@components/dropdown/DropdownProvider";
+import SelectDropdownProvider from "@components/dropdowns/select/SelectDropdownProvider";
+import { SelectDropdown } from "@components/dropdowns/select/SelectDropdown";
 
 const dropdownItems = ["Featured", "Price (Low-High)", "Price (High-Low)"] as const;
 
@@ -62,10 +62,14 @@ const Products: NextPage = () => {
 
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-3">
-              <div className="select-none text-sm  font-medium text-coffee-light/80">Sort by</div>
-              <DropdownProvider active={sort} items={Array.from(dropdownItems)} selectItem={(item) => setSort(item)}>
-                <Dropdown />
-              </DropdownProvider>
+              <div className="select-none text-sm font-medium text-coffee-light/80">Sort by</div>
+              <SelectDropdownProvider
+                active={sort}
+                items={Array.from(dropdownItems)}
+                selectItem={(item) => setSort(item)}
+              >
+                <SelectDropdown />
+              </SelectDropdownProvider>
             </div>
             <div className="flex items-center gap-1">
               <Grid3

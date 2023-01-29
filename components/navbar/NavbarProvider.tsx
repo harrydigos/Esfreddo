@@ -1,6 +1,6 @@
-import { createContext, FC, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from "react";
 
-const NavbarContext = createContext({ visible: true });
+const NavbarContext = createContext({ visible: true, setVisible: (visible: boolean) => {} });
 
 let prevYOffset = 0;
 
@@ -17,7 +17,7 @@ const NavbarProvider: FC<PropsWithChildren> = ({ children }) => {
     prevYOffset = window.pageYOffset;
   };
 
-  return <NavbarContext.Provider value={{ visible }}>{children}</NavbarContext.Provider>;
+  return <NavbarContext.Provider value={{ visible, setVisible }}>{children}</NavbarContext.Provider>;
 };
 
 export const useNavbarContext = () => useContext(NavbarContext);

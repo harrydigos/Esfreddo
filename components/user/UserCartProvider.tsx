@@ -45,6 +45,6 @@ const UserCartProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export const useUserContext = () => useContext(UserCartContext);
+export const useUserCartContext = () => useContext(UserCartContext);
 
 export default UserCartProvider;
