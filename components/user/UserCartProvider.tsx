@@ -4,10 +4,11 @@ import { createContext, FC, PropsWithChildren, useContext } from "react";
 
 const UserCartContext = createContext({
   cart: [] as Cart,
+  totalProducts: 0,
+  totalCartPrice: 0,
   addToCart: (product: CartProduct) => {},
   removeFromCart: (productId: number) => {},
   clearCart: () => {},
-  totalProducts: 0,
 });
 
 const UserCartProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -38,8 +39,10 @@ const UserCartProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const totalProducts = cart.reduce((acc, product) => acc + product.quantity, 0);
 
+  const totalCartPrice = cart.reduce((acc, product) => acc + product.price! * product.quantity, 0);
+
   return (
-    <UserCartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, totalProducts }}>
+    <UserCartContext.Provider value={{ cart, totalProducts, totalCartPrice, addToCart, removeFromCart, clearCart }}>
       {children}
     </UserCartContext.Provider>
   );

@@ -2,30 +2,14 @@ import classNames from "classnames";
 import Link from "next/link";
 import { FC } from "react";
 import { useNavbarContext } from "./NavbarProvider";
-import { BagIcon } from "@components/icons";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import { useUserCartContext } from "@components/user/UserCartProvider";
 import ProfileDropdown from "@components/dropdowns/profile/ProfileDropdown";
-
-const Cart = () => {
-  const { totalProducts } = useUserCartContext();
-
-  return (
-    <div className="relative inline-flex cursor-pointer select-none rounded-full bg-coffee-cream p-[6px]">
-      <BagIcon stroke="#483434" width={32} height={32} />
-      {totalProducts > 0 && (
-        <div className="absolute bottom-0 -right-1 flex h-5 w-5 items-center justify-center overflow-hidden rounded-full bg-coffee-dark text-xs leading-none text-coffee-cream">
-          {totalProducts}
-        </div>
-      )}
-    </div>
-  );
-};
+import CartDropdown from "@components/dropdowns/cart/CartDropdown";
 
 const LoggedIn = () => {
   return (
     <div className="flex items-center gap-6">
-      <Cart />
+      <CartDropdown />
       <ProfileDropdown />
     </div>
   );
@@ -34,7 +18,7 @@ const LoggedIn = () => {
 const LoggedOut = () => {
   return (
     <div className="flex items-center justify-center gap-6">
-      <Cart />
+      <CartDropdown />
       <Link href="/login">Login</Link>
       <Link className="inline-block rounded-md bg-coffee-dark px-4 py-1 text-coffee-cream-light" href="/signUp">
         Sign up
