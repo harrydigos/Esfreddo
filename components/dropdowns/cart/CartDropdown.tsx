@@ -105,11 +105,13 @@ const ClearCart = () => {
 const Checkout = () => {
   const user = useUser();
   const { setShowDropdown, setShowCompleteModal } = useCartDropdownContext();
-  const { clearCart } = useUserCartContext();
+  const { clearCart, purchaseCart } = useUserCartContext();
 
   const styles = `w-1/2 bg-coffee-cream-light py-3 text-coffee-dark text-center transition-colors duration-200 hover:bg-coffee-cream/50 `;
 
-  const handleCheckout = () => {
+  const handlePurchase = async () => {
+    await purchaseCart();
+
     clearCart();
     setShowDropdown(false);
     setShowCompleteModal(true);
@@ -124,7 +126,7 @@ const Checkout = () => {
   }
 
   return (
-    <button onClick={handleCheckout} className={styles}>
+    <button onClick={handlePurchase} className={styles}>
       Checkout
     </button>
   );
