@@ -2,29 +2,15 @@ import classNames from "classnames";
 import Link from "next/link";
 import { FC } from "react";
 import { useNavbarContext } from "./NavbarProvider";
-import { BagIcon } from "@components/icons";
-import { useSessionContext, useUser } from "@supabase/auth-helpers-react";
-import { useUserContext } from "@components/user/UserCartProvider";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import ProfileDropdown from "@components/dropdowns/profile/ProfileDropdown";
+import CartDropdown from "@components/dropdowns/cart/CartDropdown";
 
 const LoggedIn = () => {
-  const user = useUser();
-  const { totalProducts } = useUserContext();
-  const firstName = user?.user_metadata.full_name.split(" ")[0];
-
   return (
     <div className="flex items-center gap-6">
-      <div className="relative inline-flex rounded-full bg-coffee-cream p-[6px]">
-        <BagIcon stroke="#483434" width={32} height={32} />
-        {totalProducts > 0 && (
-          <div className="absolute bottom-0 -right-1 flex h-5 w-5 items-center justify-center overflow-hidden rounded-full bg-coffee-dark text-xs leading-none text-coffee-cream">
-            {totalProducts}
-          </div>
-        )}
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap text-dark">{firstName}</div>
-        <div className="h-10 w-10 rounded-full bg-[#C4CDEE]" />
-      </div>
+      <CartDropdown />
+      <ProfileDropdown />
     </div>
   );
 };
@@ -32,10 +18,11 @@ const LoggedIn = () => {
 const LoggedOut = () => {
   return (
     <div className="flex items-center justify-center gap-6">
+      <CartDropdown />
       <Link href="/login">Login</Link>
-      <button className="inline-block rounded-md bg-coffee-dark px-4 py-1 text-coffee-cream-light">
-        <Link href="/signUp">Sign up</Link>
-      </button>
+      <Link className="inline-block rounded-md bg-coffee-dark px-4 py-1 text-coffee-cream-light" href="/signUp">
+        Sign up
+      </Link>
     </div>
   );
 };
@@ -48,9 +35,7 @@ const Navbar: FC<JSX.IntrinsicElements["nav"]> = () => {
     <>
       <nav
         className={classNames(
-          {
-            "-translate-y-[100px]": !visible,
-          },
+          { "-translate-y-[100px]": !visible },
           "fixed top-2 z-50 w-screen bg-transparent transition-transform duration-500 ease-in-out"
         )}
       >

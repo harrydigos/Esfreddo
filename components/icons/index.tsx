@@ -4,3 +4,8 @@ export * from "./Grid3";
 export * from "./SearchIcon";
 export * from "./TickCircle";
 export * from "./BagIcon";
+export * from "./LogoutIcon";
+export * from "./ProfileIcon";
+export * from "./SettingsIcon";
+export * from "./CalendarIcon";
+export * from "./SupportIcon";

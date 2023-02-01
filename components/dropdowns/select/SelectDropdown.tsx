@@ -1,11 +1,11 @@
 import { ArrowDown, TickCircle } from "@components/icons";
 import { useCloseDropdown } from "@hooks/useCloseDropdown";
 import { useRef, useState } from "react";
-import { useDropdownContext } from "./DropdownProvider";
+import { useSelectDropdownContext } from "./SelectDropdownProvider";
 import classNames from "classnames";
 
-const DropdownItem = ({ item, toggleDropdown }: { item: string; toggleDropdown: () => void }) => {
-  const { selectItem, active } = useDropdownContext();
+const SelectDropdownItem = ({ item, toggleDropdown }: { item: string; toggleDropdown: () => void }) => {
+  const { selectItem, active } = useSelectDropdownContext();
 
   return item === active ? (
     <div
@@ -28,8 +28,8 @@ const DropdownItem = ({ item, toggleDropdown }: { item: string; toggleDropdown: 
   );
 };
 
-export const Dropdown = () => {
-  const { active, items } = useDropdownContext();
+export const SelectDropdown = () => {
+  const { active, items } = useSelectDropdownContext();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((oldValue) => !oldValue);
@@ -45,17 +45,14 @@ export const Dropdown = () => {
           className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-coffee-light focus:ring-offset-2 focus:ring-offset-gray-100"
         >
           {active}
-          <ArrowDown
-            className={classNames(showDropdown ? "-scale-100" : null, "stroke-dark transition-all")}
-            width={14}
-          />
+          <ArrowDown className={classNames({ "-scale-100": showDropdown }, "stroke-dark transition-all")} width={14} />
         </button>
 
         {showDropdown && (
           <div className="absolute right-0 top-full z-10 mt-3 min-w-[120px] animate-anim-dropdown rounded-md bg-white text-left shadow-md">
             <div className="py-1">
               {items.map((item, i) => {
-                return <DropdownItem key={i} item={item} toggleDropdown={toggleDropdown} />;
+                return <SelectDropdownItem key={i} item={item} toggleDropdown={toggleDropdown} />;
               })}
             </div>
           </div>
