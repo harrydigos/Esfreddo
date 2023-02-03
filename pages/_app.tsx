@@ -8,6 +8,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
 import NavbarProvider from "@components/navbar/NavbarProvider";
 import UserCartProvider from "@components/user/UserCartProvider";
+import OrderHistoryProvider from "@components/user/history/OrderHistoryProvider";
 
 const queryClient = new QueryClient();
 
@@ -22,11 +23,13 @@ function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) 
       </Head>
       <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.initialSession}>
         <UserCartProvider>
-          <NavbarProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </NavbarProvider>
+          <OrderHistoryProvider>
+            <NavbarProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </NavbarProvider>
+          </OrderHistoryProvider>
         </UserCartProvider>
       </SessionContextProvider>
     </QueryClientProvider>
