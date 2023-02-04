@@ -38,6 +38,21 @@ export const useBoughtProducts = (
   const supabase = useSupabaseClient();
   const { selectedOrder } = useOrderHistory();
 
+  const getProducts = async (boughtProducts: BoughtProduct[]) => {
+    const { data, error } = await supabase
+      .from("products")
+      .select()
+      .or(boughtProducts.map((product) => `id.eq.${product.product_id}`).join(","));
+
+    const products = data as CartProduct[];
+
+    if (error) throw error;
+    if (products) {
+      products.map((product, i) => (product.quantity = boughtProducts[i].quantity));
+      return products;
+    }
+  };
+
   return useQuery(
     ["boughtProducts", selectedOrder],
     async () => {
@@ -48,24 +63,7 @@ export const useBoughtProducts = (
       const boughtProducts = data as BoughtProduct[];
 
       if (error) throw error;
-      if (boughtProducts) {
-        const getProducts = async () => {
-          const { data, error } = await supabase
-            .from("products")
-            .select()
-            .or(boughtProducts.map((product) => `id.eq.${product.product_id}`).join(","));
-
-          const products = data as CartProduct[];
-
-          if (error) throw error;
-          if (products) {
-            products.map((product, i) => (product.quantity = boughtProducts[i].quantity));
-            return products;
-          }
-        };
-
-        return getProducts();
-      }
+      if (boughtProducts) return getProducts(boughtProducts);
     },
     { enabled: !!selectedOrder, onSuccess: (products) => setBoughtProducts(products) }
   );

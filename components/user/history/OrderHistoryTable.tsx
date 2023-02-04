@@ -56,16 +56,6 @@ const OrderRow = ({ order }: { order: Order }) => {
 };
 
 const ProgressBar = ({ date }: { date: Date | null }) => {
-  const getDayDiff = (startDate: Date) => {
-    if (!startDate) return 0;
-
-    const now = new Date();
-    const msInDay = 24 * 60 * 60 * 1000;
-    const diff = Math.round(Math.abs(Number(now) - Number(startDate)) / msInDay);
-
-    return diff >= 5 ? 100 : diff * 20;
-  };
-
   return (
     <div className="h-2 max-w-[160px] rounded-full bg-gray-100">
       <div
@@ -74,4 +64,15 @@ const ProgressBar = ({ date }: { date: Date | null }) => {
       />
     </div>
   );
+};
+
+/* Returns a percentage based on the number of days since the order was placed. */
+const getDayDiff = (startDate: Date) => {
+  if (!startDate) return 0;
+
+  const now = new Date();
+  const msInDay = 24 * 60 * 60 * 1000;
+  const diff = Math.round(Math.abs(Number(now) - Number(startDate)) / msInDay);
+
+  return diff >= 5 ? 100 : diff * 20;
 };
