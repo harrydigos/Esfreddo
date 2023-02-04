@@ -9,11 +9,14 @@ import Head from "next/head";
 import NavbarProvider from "@components/navbar/NavbarProvider";
 import UserCartProvider from "@components/user/UserCartProvider";
 import OrderHistoryProvider from "@components/user/history/OrderHistoryProvider";
+import { _supabaseClient } from "@utils/supabase";
 
 const queryClient = new QueryClient();
 
+
+
 function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) {
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+  const [supabaseClient] = useState(() => _supabaseClient);
 
   return (
     <QueryClientProvider client={queryClient}>
