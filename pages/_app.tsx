@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import Layout from "../layouts/layout";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
 import NavbarProvider from "@components/navbar/NavbarProvider";
@@ -12,8 +11,6 @@ import OrderHistoryProvider from "@components/user/history/OrderHistoryProvider"
 import { _supabaseClient } from "@utils/supabase";
 
 const queryClient = new QueryClient();
-
-
 
 function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) {
   const [supabaseClient] = useState(() => _supabaseClient);

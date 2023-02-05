@@ -6,6 +6,7 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useUserCartContext } from "@components/user/UserCartProvider";
 import Link from "next/link";
 import ProfileDropdownProvider, { useProfileDropdownContext } from "./ProfileDropdownProvider";
+import Router from "next/router";
 
 const ProfileDropdown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -83,6 +84,7 @@ const LogoutButton = () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);
     clearCart();
+    Router.push("/");
   };
 
   return (
