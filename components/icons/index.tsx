@@ -9,3 +9,4 @@ export * from "./ProfileIcon";
 export * from "./SettingsIcon";
 export * from "./CalendarIcon";
 export * from "./SupportIcon";
+export * from "./MoreIcon";

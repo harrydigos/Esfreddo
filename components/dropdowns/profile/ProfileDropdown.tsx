@@ -4,9 +4,11 @@ import { useCloseDropdown } from "@hooks/useCloseDropdown";
 import { FC, SVGProps, useRef, useState } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useUserCartContext } from "@components/user/UserCartProvider";
+import Link from "next/link";
+import ProfileDropdownProvider, { useProfileDropdownContext } from "./ProfileDropdownProvider";
+import Router from "next/router";
 
 const ProfileDropdown = () => {
-  const { visible } = useNavbarContext();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const user = useUser();
@@ -16,50 +18,59 @@ const ProfileDropdown = () => {
   useCloseDropdown<HTMLDivElement>(wrapperRef, setShowDropdown);
 
   return (
-    <div ref={wrapperRef} className="relative">
-      <button className="inline-flex items-center gap-3" onClick={() => setShowDropdown((oldValue) => !oldValue)}>
-        <div className="max-w-[140px] select-none overflow-hidden text-ellipsis whitespace-nowrap text-dark">
-          {firstName}
-        </div>
-        <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-300 to-purple-400" />
-      </button>
-      <ProfileDropdown.Content visible={showDropdown && visible} />
-    </div>
+    <ProfileDropdownProvider showDropdown={showDropdown} setShowDropdown={setShowDropdown}>
+      <div ref={wrapperRef} className="relative">
+        <button className="inline-flex items-center gap-3" onClick={() => setShowDropdown((oldValue) => !oldValue)}>
+          <div className="max-w-[140px] select-none overflow-hidden text-ellipsis whitespace-nowrap text-dark">
+            {firstName}
+          </div>
+          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-300 to-purple-400" />
+        </button>
+        <ProfileDropdown.Content />
+      </div>
+    </ProfileDropdownProvider>
   );
 };
 
 export default ProfileDropdown;
 
-ProfileDropdown.Content = function ({ visible }: { visible: boolean }) {
-  if (!visible) return null;
+ProfileDropdown.Content = function () {
+  const { visible } = useNavbarContext();
+  const { showDropdown } = useProfileDropdownContext();
+
+  if (!visible || !showDropdown) return null;
 
   return (
     <div className="absolute right-0 top-full z-10 mt-3 flex min-w-[165px] animate-anim-dropdown flex-col rounded-xl border border-black/5 bg-white text-sm font-medium text-dark">
-      <ButtonGroup>
-        <SimpleButton Icon={ProfileIcon} text="Profile" />
-        <SimpleButton Icon={SettingsIcon} text="Settings" />
-      </ButtonGroup>
+      <Group>
+        <SimpleLink Icon={ProfileIcon} text="Profile" />
+        <SimpleLink Icon={SettingsIcon} text="Settings" />
+      </Group>
       <Line />
-      <ButtonGroup>
-        <SimpleButton Icon={CalendarIcon} text="Order History" />
-        <SimpleButton Icon={SupportIcon} text="Support" />
-      </ButtonGroup>
+      <Group>
+        <SimpleLink Icon={CalendarIcon} text="Order History" link="/order-history" />
+        <SimpleLink Icon={SupportIcon} text="Support" />
+      </Group>
       <Line />
       <LogoutButton />
     </div>
   );
 };
 
-const ButtonGroup = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-col py-2">{children}</div>
-);
+const Group = ({ children }: { children: React.ReactNode }) => <div className="flex flex-col py-2">{children}</div>;
 
-const SimpleButton = ({ Icon: IconComponent, text }: { Icon: FC<SVGProps<SVGSVGElement>>; text: string }) => {
+const SimpleLink = ({ Icon, text, link = "#" }: { Icon: FC<SVGProps<SVGSVGElement>>; text: string; link?: string }) => {
+  const { setShowDropdown } = useProfileDropdownContext();
+
   return (
-    <button className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50">
-      <IconComponent className="fill-dark" height={20} />
+    <Link
+      href={link}
+      onClick={() => setShowDropdown(false)}
+      className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50"
+    >
+      <Icon className="fill-dark" height={20} />
       <div>{text}</div>
-    </button>
+    </Link>
   );
 };
 
@@ -73,6 +84,7 @@ const LogoutButton = () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);
     clearCart();
+    Router.push("/");
   };
 
   return (
