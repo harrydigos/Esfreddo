@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo, useCallback } from "react";
+import { useRef, useState, useMemo, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN || "";
 
@@ -27,12 +27,6 @@ export const useMap = <T extends HTMLElement>() => {
     });
 
     setMap(mapConst);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      setMap(null);
-    };
   }, []);
 
   return {

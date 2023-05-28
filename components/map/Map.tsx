@@ -13,10 +13,7 @@ const MapComponent = () => {
   return (
     <>
       {!isLoaded && <Spinner />}
-      <div
-        className="absolute w-screen h-screen overflow-hidden"
-        ref={initMap}
-      />
+      <div className="absolute h-screen w-screen overflow-hidden" ref={initMap} />
 
       {stores && stores.map((store) => <MapMarker key={store.id} {...store} />)}
     </>

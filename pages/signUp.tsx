@@ -39,11 +39,7 @@ const SignUp: NextPage = () => {
 
   const supabase = useSupabaseClient();
 
-  const onSubmit: SubmitHandler<FormInputs> = async ({
-    email,
-    password,
-    fullName,
-  }) => {
+  const onSubmit: SubmitHandler<FormInputs> = async ({ email, password, fullName }) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -65,24 +61,16 @@ const SignUp: NextPage = () => {
 
   return (
     <>
-      <div className="container-2xl h-screen flex justify-between">
-        <div className="w-full relative flex justify-center items-center">
-          <div className="w-[22rem] flex flex-col items-start bg-white gap-6 text-dark">
+      <div className="container-2xl flex h-screen justify-between">
+        <div className="relative flex w-full items-center justify-center">
+          <div className="flex w-[22rem] flex-col items-start gap-6 bg-white text-dark">
             <div className="flex flex-col gap-3">
               <h1 className="text-4xl font-bold">Create your account</h1>
-              <p className="text-m font-medium">
-                Create account to start using Esfreddo
-              </p>
+              <p className="text-m font-medium">Create account to start using Esfreddo</p>
             </div>
-            <form
-              className="flex flex-col w-full gap-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col items-start gap-2">
-                <label
-                  htmlFor="fullName"
-                  className="w-full text-base font-semibold"
-                >
+                <label htmlFor="fullName" className="w-full text-base font-semibold">
                   Full name
                 </label>
                 <input
@@ -92,25 +80,16 @@ const SignUp: NextPage = () => {
                       message: "Full name is required",
                     },
                   })}
-                  className={classNames(
-                    styles.formInput,
-                    !!errors.fullName ? styles.__error : ""
-                  )}
+                  className={classNames(styles.formInput, !!errors.fullName ? styles.__error : "")}
                   id="fullName"
                   type={"fullName"}
                   placeholder="e.g. Babis Digos"
                 />
 
-                <ErrorForm
-                  error={!!errors.fullName}
-                  errorMsg={errors.fullName?.message}
-                />
+                <ErrorForm error={!!errors.fullName} errorMsg={errors.fullName?.message} />
               </div>
               <div className="flex flex-col items-start gap-2">
-                <label
-                  htmlFor="email"
-                  className="w-full text-base font-semibold"
-                >
+                <label htmlFor="email" className="w-full text-base font-semibold">
                   Email
                 </label>
                 <input
@@ -121,27 +100,18 @@ const SignUp: NextPage = () => {
                     },
                     pattern: { value: emailRegex, message: "Invalid email" },
                   })}
-                  className={classNames(
-                    styles.formInput,
-                    !!errors.email ? styles.__error : ""
-                  )}
+                  className={classNames(styles.formInput, !!errors.email ? styles.__error : "")}
                   id="email"
                   type={"email"}
                   placeholder="Enter your email"
                 />
-                <ErrorForm
-                  error={!!errors.email}
-                  errorMsg={errors.email?.message}
-                />
+                <ErrorForm error={!!errors.email} errorMsg={errors.email?.message} />
               </div>
               <div className="flex flex-col items-start gap-2">
-                <label
-                  htmlFor="password"
-                  className="w-full text-base font-semibold"
-                >
+                <label htmlFor="password" className="w-full text-base font-semibold">
                   Password
                 </label>
-                <div className="w-full relative flex justify-between items-center gap-3">
+                <div className="relative flex w-full items-center justify-between gap-3">
                   <input
                     {...register("password", {
                       required: {
@@ -149,18 +119,14 @@ const SignUp: NextPage = () => {
                         message: "Password is required",
                       },
                     })}
-                    className={classNames(
-                      styles.formInput,
-                      styles.pswd,
-                      !!errors.password ? styles.__error : ""
-                    )}
+                    className={classNames(styles.formInput, styles.pswd, !!errors.password ? styles.__error : "")}
                     id="password"
                     type={isPasswordHidden ? "password" : "text"}
                     placeholder="Enter your password"
                   />
                   <button
                     type="button"
-                    className="absolute top-1/2 -translate-y-1/2 right-3"
+                    className="absolute top-1/2 right-3 -translate-y-1/2"
                     onClick={() => setPasswordHidden((oldValue) => !oldValue)}
                   >
                     <ToggleEyeIcon isPasswordHidden={isPasswordHidden} />
@@ -168,20 +134,11 @@ const SignUp: NextPage = () => {
                 </div>
                 <PasswordMeter password={watchPassword} />
 
-                <ErrorForm
-                  error={!!errors.password}
-                  errorMsg={errors.password?.message}
-                />
+                <ErrorForm error={!!errors.password} errorMsg={errors.password?.message} />
               </div>
 
-              {!!errorMessage && (
-                <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />
-              )}
-              {validateEmail && (
-                <ValidateEmail
-                  message={"Account created! Please verify your email"}
-                />
-              )}
+              {!!errorMessage && <ErrorForm error={!!errorMessage} errorMsg={errorMessage} />}
+              {validateEmail && <ValidateEmail message={"Account created!"} />}
 
               <FormSubmitBtn value={"Create my account"} />
               <div className="flex items-center justify-center gap-2">
@@ -192,19 +149,9 @@ const SignUp: NextPage = () => {
               </div>
             </form>
           </div>
-          <div className="absolute bottom-12 w-full text-center">
-            By signing up, you agree to our{" "}
-            <a href="#" className="font-medium underline">
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a href="#" className="font-medium underline">
-              Privacy Policy
-            </a>
-          </div>
         </div>
         <Image
-          className="w-full object-cover -scale-x-100"
+          className="w-full -scale-x-100 object-cover"
           src={coffeeMachineImg}
           alt="Coffee Machine"
           placeholder="blur"
