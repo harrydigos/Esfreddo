@@ -54,7 +54,7 @@ const Navbar: FC<JSX.IntrinsicElements["nav"]> = () => {
             <Link href="/">Home</Link>
             <Link href="/products">Products</Link>
             <Link href="/stores">Stores</Link>
-            <a href="#">Company</a>
+            <Link href="https://github.com/BabisDigos/Esfreddo">Github</Link>
           </div>
 
           {session ? <LoggedIn /> : <LoggedOut />}
