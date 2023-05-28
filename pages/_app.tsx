@@ -9,6 +9,7 @@ import NavbarProvider from "@components/navbar/NavbarProvider";
 import UserCartProvider from "@components/user/UserCartProvider";
 import OrderHistoryProvider from "@components/user/history/OrderHistoryProvider";
 import { _supabaseClient } from "@utils/supabase";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) 
             <NavbarProvider>
               <Layout>
                 <Component {...pageProps} />
+                <Analytics />
               </Layout>
             </NavbarProvider>
           </OrderHistoryProvider>
