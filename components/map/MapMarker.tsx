@@ -5,24 +5,19 @@ import { useEffect } from "react";
 import { useMapContext } from "./MapProvider";
 import styles from "./marker.module.scss";
 
-const MapMarker: React.FC<StoreType> = ({
-  lat,
-  lng,
-  city,
-  address,
-  state,
-  image,
-}) => {
-  const { prev: { map } } = useMapContext();
+const MapMarker: React.FC<StoreType> = ({ lat, lng, city, address, state, image }) => {
+  const {
+    prev: { map },
+  } = useMapContext();
 
   useEffect(() => {
     if (!map) return;
 
-    const marker = new mapboxgl.Marker(createMarker())
+    new mapboxgl.Marker(createMarker())
       .setLngLat([lng!, lat!])
       .setPopup(
         new mapboxgl.Popup()
-          .setOffset([0, -20])
+          .setOffset([0, 0])
           .setLngLat([lng!, lat!])
           .setDOMContent(createPopup({ city, address, state, image }))
       )
@@ -37,11 +32,9 @@ const createMarker = (): HTMLDivElement => {
   return el;
 };
 
-const createPopup = ({
-  ...props
-}: Pick<StoreType, "address" | "city" | "state" | "image">): HTMLDivElement => {
+const createPopup = ({ ...props }: Pick<StoreType, "address" | "city" | "state" | "image">): HTMLDivElement => {
   const popup = document.createElement("div");
-  const image = document.createElement("img");
+  const image = document.createElement("div");
   const info = document.createElement("div");
   const location = document.createElement("div");
   const address = document.createElement("div");
@@ -50,8 +43,6 @@ const createPopup = ({
 
   popup.className = classNames(styles.popup);
   image.className = classNames(styles.image);
-  console.log(props.image);
-  image.src = props.image!;
 
   info.className = classNames(styles.info);
   location.className = classNames(styles.location);
